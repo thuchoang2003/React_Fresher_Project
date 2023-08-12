@@ -15,6 +15,9 @@ import Footer from "./components/Footer/Footer";
 import Contact from "./pages/Contact/Contact";
 import Book from "./pages/book/book";
 import Homepage from "./components/Homepage/Homepage";
+import NotFound from "./pages/NotFound/NotFound";
+import "./assets/scss/Main.scss";
+
 const Layout = () => {
   return (
     <div className="app-container">
@@ -28,7 +31,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <div>404 not found!</div>,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -47,12 +50,12 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-    errorElement: <div>404 not found!</div>,
+    errorElement: <NotFound />,
   },
   {
     path: "/register",
     element: <Register />,
-    errorElement: <div>404 not found!</div>,
+    errorElement: <NotFound />,
   },
 ]);
 
