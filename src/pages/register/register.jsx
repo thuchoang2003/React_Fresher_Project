@@ -2,16 +2,49 @@ import { Button, Checkbox, Form, Input } from "antd";
 import React from "react";
 import "../../assets/scss/register.scss";
 import { useNavigate } from "react-router-dom";
+import { postRegister } from "../../apiService/apiServices.js";
+import { message, Space } from "antd";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 const Register = (props) => {
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Register is succesful!",
+    });
+  };
+
+  const error = () => {
+    messageApi.open({
+      type: "error",
+      content: "Register is failed!",
+    });
+  };
+  const warning = () => {
+    messageApi.open({
+      type: "warning",
+      content: "This is a warning message",
+    });
+  };
+  const onFinish = async (values) => {
+    let res = await postRegister(
+      values.Fullname,
+      values.Email,
+      values.password,
+      values.Telephone_number
+    );
+    if (res.data) {
+      success();
+    } else error();
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   return (
     <>
+      {contextHolder}
       <div className="register-container">
         <div className="div-register">
           <div className="title">Đăng Ký</div>
@@ -80,7 +113,7 @@ const Register = (props) => {
             <Form.Item
               size="large"
               label="Telephone number"
-              name="Telephone number"
+              name="Telephone_number"
               rules={[
                 {
                   required: true,

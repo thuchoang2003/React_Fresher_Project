@@ -1,16 +1,31 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, message, notification } from "antd";
 import React from "react";
 import "../../assets/scss/Login.scss";
 import { useNavigate } from "react-router-dom";
+import Password from "antd/es/input/Password";
+import { postLogin } from "../../apiService/apiServices.js";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
 const Login = (props) => {
   const navigate = useNavigate();
+  const onFinish = async (values) => {
+    let res = await postLogin(values.Email, values.password);
+    if (res?.data) {
+      message.success("Login is successful!");
+      localStorage.setItem("access_token", res.data.access_token);
+      console.log(res);
+      navigate("/");
+    } else {
+      notification.error({
+        message: "Login is failed!",
+        description: res.message,
+        duration: 5,
+      });
+    }
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
       <div className="login-container">
@@ -45,7 +60,7 @@ const Login = (props) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your email!",
+                  message: "Please fill your email!",
                 },
               ]}
             >
@@ -59,7 +74,7 @@ const Login = (props) => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: "Please fill your password!",
                 },
               ]}
             >
