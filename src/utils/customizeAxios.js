@@ -6,6 +6,9 @@ const instance = axios.create({
   baseURL: "http://localhost:8080/api/v1/",
   withCredentials: true,
 });
+instance.defaults.headers.common = {
+  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+};
 instance.interceptors.request.use(
   function (config) {
     // Do something before request is sent

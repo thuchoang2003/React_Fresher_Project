@@ -17,5 +17,8 @@ const postRegister = (fullname, email, password, phone) => {
   let response = instance.post("user/register", data);
   return response;
 };
+const fetchAccount = () => {
+  return instance.get("/auth/account");
+};
 
-export { postLogin, postRegister };
+export { postLogin, postRegister, fetchAccount };

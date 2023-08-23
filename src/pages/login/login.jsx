@@ -4,15 +4,18 @@ import "../../assets/scss/Login.scss";
 import { useNavigate } from "react-router-dom";
 import Password from "antd/es/input/Password";
 import { postLogin } from "../../apiService/apiServices.js";
+import { useDispatch } from "react-redux";
+import { doLogin } from "../../redux/counter/accountSlice";
 
 const Login = (props) => {
   const navigate = useNavigate();
+  const dispath = useDispatch();
   const onFinish = async (values) => {
     let res = await postLogin(values.Email, values.password);
     if (res?.data) {
       message.success("Login is successful!");
       localStorage.setItem("access_token", res.data.access_token);
-      console.log(res);
+      dispath(doLogin(res.data));
       navigate("/");
     } else {
       notification.error({

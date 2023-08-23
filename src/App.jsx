@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCount } from "./redux/counter/counterSlice";
 import {
@@ -17,7 +17,8 @@ import Book from "./pages/book/book";
 import Homepage from "./components/Homepage/Homepage";
 import NotFound from "./pages/NotFound/NotFound";
 import "./assets/scss/Main.scss";
-
+import { fetchAccount } from "./apiService/apiServices";
+import { doGetAccount } from "./redux/counter/accountSlice";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -60,6 +61,16 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
+  const dispatch = useDispatch();
+  const getAccount = async () => {
+    let res = await fetchAccount();
+    if (res && res.data) {
+      dispatch(doGetAccount(res.data));
+    }
+  };
+  useEffect(() => {
+    getAccount();
+  }, []);
   return (
     <>
       <RouterProvider router={router} />
