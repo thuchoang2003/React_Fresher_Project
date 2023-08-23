@@ -15,6 +15,7 @@ const Login = (props) => {
     if (res?.data) {
       message.success("Login is successful!");
       localStorage.setItem("access_token", res.data.access_token);
+
       dispath(doLogin(res.data));
       navigate("/");
     } else {
