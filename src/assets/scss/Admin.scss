@@ -1,0 +1,26 @@
+aside.ant-layout-sider.ant-layout-sider-dark {
+  background: white;
+}
+
+.ant-layout {
+  height: 100vh;
+  .sidebar-admin_title {
+    font-size: 30px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    .ant-layout-sider-children {
+      .ant-menu {
+        .ant-menu-item {
+          height: 60px;
+          svg {
+            width: 2em;
+            height: 2em;
+          }
+        }
+      }
+    }
+  }
+}
