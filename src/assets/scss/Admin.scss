@@ -4,6 +4,13 @@ aside.ant-layout-sider.ant-layout-sider-dark {
 
 .ant-layout {
   height: 100vh;
+  .ant-dropdown-trigger {
+    .ant-space {
+      .ant-space-item {
+        font-size: 20px;
+      }
+    }
+  }
   .sidebar-admin_title {
     font-size: 30px;
     font-weight: 600;
@@ -23,4 +30,41 @@ aside.ant-layout-sider.ant-layout-sider-dark {
       }
     }
   }
+}
+.ant-dropdown {
+  .ant-dropdown-menu {
+    .ant-dropdown-menu-title-content {
+      font-size: 20px;
+    }
+  }
+}
+.ant-menu-inline.ant-menu-root .ant-menu-item > .ant-menu-title-content {
+  font-size: 20px;
+}
+.ant-menu {
+  .ant-menu-item {
+    height: 55px;
+    margin-bottom: 10px;
+    .ant-menu-item-icon {
+      font-size: 20px;
+    }
+  }
+}
+
+.ant-menu-light.ant-menu-inline .ant-menu-item {
+  gap: 5px;
+}
+.ant-menu-inline.ant-menu-root {
+  .ant-menu-submenu {
+    margin: 5px 0px;
+    .ant-menu-submenu-title {
+      height: 55px;
+      > .ant-menu-title-content {
+        font-size: 20px;
+      }
+    }
+  }
+}
+.ant-menu .ant-menu-submenu-title .ant-menu-item-icon {
+  font-size: 20px;
 }

@@ -10,6 +10,7 @@ const initialState = {
     role: "",
   },
   isAuthenticated: false,
+  isLoading: false,
 };
 
 export const accountSlice = createSlice({
@@ -19,13 +20,23 @@ export const accountSlice = createSlice({
     doLogin: (state, action) => {
       state.user = action?.payload?.user;
       state.isAuthenticated = true;
+      state.isLoading = false;
     },
     doLogout: (state) => {
-      state = initialState;
+      state.user.avatar = "";
+      state.user.email = "";
+      state.user.fullName = "";
+      state.user.id = "";
+      state.user.phone = "";
+      state.user.role = "";
+      state.isAuthenticated = false;
+      state.isLoading = false;
+      localStorage.removeItem("access_token");
     },
     doGetAccount: (state, action) => {
       state.user = action?.payload?.user;
       state.isAuthenticated = true;
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {},

@@ -5,15 +5,53 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
+  DownOutlined,
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import "../../assets/scss/Admin.scss";
-import { Layout, Menu, Button, theme } from "antd";
+import { Layout, Menu, Button, theme, Dropdown, Space, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../../redux/counter/accountSlice";
+import { postLogout } from "../../apiService/apiServices";
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    let res = await postLogout();
+    if (res && res.data) {
+      message.success("Logout succesfully!");
+      dispatch(doLogout());
+      navigate("/login");
+    }
+  };
+  const items = [
+    {
+      label: "Quản lý tài khoản",
+      key: "1",
+    },
+    {
+      label: "Đăng xuất",
+      key: "2",
+      onClick: handleLogout,
+    },
+  ];
+  function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+  const navigate = useNavigate();
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed} width={300}>
@@ -22,31 +60,48 @@ const AdminHomepage = () => {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={["Dashboard"]}
           items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "nav 1",
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
-            },
+            getItem(
+              <Link
+                to="/admin"
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                Dashboard
+              </Link>,
+              "Dashboard",
+              <UserOutlined />
+            ),
+            getItem("Manager Users", "sub2", <MailOutlined />, [
+              getItem("Option 1", "1"),
+              getItem("Option 2", "2"),
+              getItem("Option 3", "3"),
+              getItem("Option 4", "4"),
+            ]),
+            getItem("Manager Books", "sub3", <AppstoreOutlined />, [
+              getItem("Option 5", "5"),
+              getItem("Option 6", "6"),
+            ]),
+            getItem("Manager Orders", "sub4", <SettingOutlined />, [
+              getItem("Option 9", "9"),
+              getItem("Option 10", "10"),
+              getItem("Option 11", "11"),
+              getItem("Option 12", "12"),
+            ]),
           ]}
         />
       </Sider>
       <Layout>
         <Header
           style={{
-            padding: 0,
+            paddingLeft: 30,
+            paddingRight: 30,
             background: colorBgContainer,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
           <Button
@@ -59,6 +114,20 @@ const AdminHomepage = () => {
               height: 64,
             }}
           />
+          <Dropdown
+            menu={{
+              items,
+            }}
+            placement="topRight"
+            size="large"
+          >
+            <a>
+              <Space size={"large"}>
+                Welcome, I'm Admin
+                <DownOutlined />
+              </Space>
+            </a>
+          </Dropdown>
         </Header>
         <Content
           style={{

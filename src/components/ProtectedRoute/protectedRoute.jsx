@@ -15,10 +15,12 @@ const RoleBaseRoute = (props) => {
 };
 const ProtectedRoute = (props) => {
   const isAuthenticated = useSelector((state) => state.account.isAuthenticated);
+  const isLoading = useSelector((state) => state.account.isLoading);
   console.log(isAuthenticated);
+  console.log(isLoading);
   return (
     <>
-      {isAuthenticated === true ? (
+      {isAuthenticated === true && isLoading === false ? (
         <>
           <RoleBaseRoute>{props.children}</RoleBaseRoute>
         </>

@@ -20,5 +20,9 @@ const postRegister = (fullname, email, password, phone) => {
 const fetchAccount = () => {
   return instance.get("/auth/account");
 };
+const postLogout = () => {
+  let response = instance.post("/auth/logout");
+  return response;
+};
 
-export { postLogin, postRegister, fetchAccount };
+export { postLogin, postRegister, fetchAccount, postLogout };
