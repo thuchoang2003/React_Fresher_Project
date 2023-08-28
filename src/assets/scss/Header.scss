@@ -19,19 +19,19 @@
   }
   .div-search {
     .ant-input-group {
-      height: 60px;
+      height: 50px;
       input {
-        font-size: 22px;
+        font-size: 20px;
       }
       .ant-input-affix-wrapper {
-        height: 60px;
+        height: 50px;
       }
     }
     .ant-input-group-addon {
-      height: 60px;
+      height: 50px;
       width: 70px;
       .ant-btn {
-        height: 60px;
+        height: 50px;
         width: 70px;
       }
     }
@@ -47,9 +47,11 @@
       gap: 10px;
       cursor: pointer;
       border-radius: 10px;
-      padding: 10px 15px;
+      padding: 10px 5px;
+      width: 130px;
+      height: 50px;
       span {
-        font-size: 20px;
+        font-size: 17px;
         color: #0060ff;
         font-weight: 600;
       }
@@ -63,9 +65,12 @@
       gap: 10px;
       cursor: pointer;
       border-radius: 10px;
-      padding: 10px 15px;
+      padding: 10px 5px;
+
+      width: 130px;
+      height: 50px;
       span {
-        font-size: 20px;
+        font-size: 17px;
         color: #81818a;
         font-weight: 600;
       }
@@ -78,7 +83,7 @@
     height: 30px;
     width: 2.5px;
     background-color: #bdbdbd;
-    content: "";
+
     border-radius: 3px solid #0e0707;
     margin-left: -30px;
   }

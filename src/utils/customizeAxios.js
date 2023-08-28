@@ -51,6 +51,9 @@ instance.interceptors.response.use(
         localStorage.setItem("access_token") = access_token;
         return instance.request(error.config);
       }
+      if(status === 400 && error.config.url === '/api/v1/auth/refresh'){
+        window.location.href = "/login";
+      }
     
     return error && error.response && error.response.data
       ? error.response.data

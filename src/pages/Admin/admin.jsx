@@ -16,6 +16,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/counter/accountSlice";
 import { postLogout } from "../../apiService/apiServices";
+import InputSearch from "./InputSearch";
+import TableUser from "./TableUser";
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -137,7 +139,8 @@ const AdminHomepage = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <InputSearch />
+          <TableUser />
         </Content>
         <Footer
           style={{
