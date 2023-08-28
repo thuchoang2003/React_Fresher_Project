@@ -24,5 +24,15 @@ const postLogout = () => {
   let response = instance.post("/auth/logout");
   return response;
 };
+const getUsersWithPaginate = (current, pageSize) => {
+  let response = instance.get(`/user?current=${current}&pageSize=${pageSize}`);
+  return response;
+};
 
-export { postLogin, postRegister, fetchAccount, postLogout };
+export {
+  postLogin,
+  postRegister,
+  fetchAccount,
+  postLogout,
+  getUsersWithPaginate,
+};
