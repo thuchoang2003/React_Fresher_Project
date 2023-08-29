@@ -2,13 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Table, theme } from "antd";
 import { getUsersWithPaginate } from "../../apiService/apiServices.js";
 import { useImmer } from "use-immer";
+import InputSearch from "./InputSearch";
 const TableUser = (props) => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(8);
   const [total, setTotal] = useState(1);
   const [dataSource, setDataSource] = useImmer([]);
-
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const handleChangeInputSearch = (fullname, email, phone) => {
+    setFullname(fullname);
+    setEmail(email);
+    setPhone(phone);
+    console.log(fullname, email, phone);
+  };
   const columns = [
     {
       title: "FullName",
@@ -43,7 +52,13 @@ const TableUser = (props) => {
     },
   ];
   const fetchDataUser = async () => {
-    let res = await getUsersWithPaginate(current, pageSize);
+    let res = await getUsersWithPaginate(
+      current,
+      pageSize,
+      fullname,
+      email,
+      phone
+    );
     if (res && res.data) {
       console.log(res.data);
       setTotal(res?.data?.meta?.total);
@@ -64,15 +79,19 @@ const TableUser = (props) => {
       }
     }
   };
+  // const fetchDataUserWithQuery = async () => {
+
+  // };
   useEffect(() => {
     fetchDataUser();
-  }, [current, pageSize]);
+  }, [current, pageSize, fullname, email, phone]);
   const handleChangePage = (page, pageSize) => {
     setCurrent(page);
     setPageSize(pageSize);
   };
   return (
     <>
+      <InputSearch handleChangeInputSearch={handleChangeInputSearch} />
       <Table
         dataSource={dataSource}
         columns={columns}

@@ -24,11 +24,16 @@ const postLogout = () => {
   let response = instance.post("/auth/logout");
   return response;
 };
-const getUsersWithPaginate = (current, pageSize) => {
-  let response = instance.get(`/user?current=${current}&pageSize=${pageSize}`);
+// const getUsersWithPaginate = (current, pageSize) => {
+//   let response = instance.get(`/user?current=${current}&pageSize=${pageSize}`);
+//   return response;
+// };
+const getUsersWithPaginate = (current, pageSize, fullName, email, phone) => {
+  let response = instance.get(
+    `/user?current=${current}&pageSize=${pageSize}&fullName=/${fullName}/&email=/${email}/&phone=/${phone}/`
+  );
   return response;
 };
-
 export {
   postLogin,
   postRegister,

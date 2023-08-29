@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Row, theme } from "antd";
 const InputSearch = (props) => {
   const { token } = theme.useToken();
   const [form] = Form.useForm();
-
+  const { handleChangeInputSearch } = props;
   const formStyle = {
     maxWidth: "none",
     background: token.colorFillAlter,
@@ -13,6 +13,10 @@ const InputSearch = (props) => {
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    if (values.fullName === undefined) values.fullName = "";
+    if (values.email === undefined) values.email = "";
+    if (values.phone === undefined) values.phone = "";
+    handleChangeInputSearch(values.fullName, values.email, values.phone);
   };
   return (
     <>
@@ -61,6 +65,7 @@ const InputSearch = (props) => {
               style={{ margin: "0 8px" }}
               onClick={() => {
                 form.resetFields();
+                handleChangeInputSearch("", "", "");
               }}
             >
               Clear

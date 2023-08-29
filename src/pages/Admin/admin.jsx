@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/counter/accountSlice";
 import { postLogout } from "../../apiService/apiServices";
-import InputSearch from "./InputSearch";
+
 import TableUser from "./TableUser";
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
@@ -25,6 +25,7 @@ const AdminHomepage = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const dispatch = useDispatch();
+
   const handleLogout = async () => {
     let res = await postLogout();
     if (res && res.data) {
@@ -139,7 +140,6 @@ const AdminHomepage = () => {
             background: colorBgContainer,
           }}
         >
-          <InputSearch />
           <TableUser />
         </Content>
         <Footer
