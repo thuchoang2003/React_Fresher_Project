@@ -10,8 +10,17 @@ import { getUsersWithPaginate } from "../../apiService/apiServices.js";
 import { useImmer } from "use-immer";
 import InputSearch from "./InputSearch";
 import UserDetailPage from "./UserDetailPage.jsx";
+import ModalCreateUser from "./ModalCreateUser.jsx";
+import ModalUploadFile from "./ModalUploadFile.jsx";
 
-const RenderHeaderTableUser = () => {
+const RenderHeaderTableUser = (props) => {
+  const {
+    open,
+    setOpenModalCreateUser,
+    fetchDataUser,
+    openModalUploadFile,
+    setOpenModalUploadFile,
+  } = props;
   return (
     <>
       <div
@@ -28,13 +37,30 @@ const RenderHeaderTableUser = () => {
           <Button type="primary" icon={<DownloadOutlined />}>
             Export
           </Button>
-          <Button type="primary" icon={<ImportOutlined />}>
+          <Button
+            type="primary"
+            icon={<ImportOutlined />}
+            onClick={() => {
+              setOpenModalUploadFile(!openModalUploadFile);
+            }}
+          >
             Import
           </Button>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setOpenModalCreateUser(!open);
+            }}
+          >
             Thêm mới
           </Button>
-          <Button icon={<ReloadOutlined />} />
+          <Button
+            icon={<ReloadOutlined />}
+            onClick={() => {
+              fetchDataUser();
+            }}
+          />
         </div>
       </div>
     </>
@@ -52,6 +78,8 @@ const TableUser = (props) => {
   const [sortedInfo, setSortedInfo] = useState("");
   const [openUserDetail, setOpenUserDetail] = useState(false);
   const [dataUserDetail, setDataUserDetail] = useState();
+  const [openModalCreateUser, setOpenModalCreateUser] = useState(false);
+  const [openModalUploadFile, setOpenModalUploadFile] = useState(false);
   const handleChangeInputSearch = (fullname, email, phone) => {
     setFullname(fullname);
     setEmail(email);
@@ -111,7 +139,6 @@ const TableUser = (props) => {
   ];
 
   const fetchDataUser = async () => {
-    console.log("check sortedinfo", sortedInfo);
     let res = await getUsersWithPaginate(
       current,
       pageSize,
@@ -122,7 +149,6 @@ const TableUser = (props) => {
     );
 
     if (res && res.data) {
-      console.log(res.data);
       setTotal(res?.data?.meta?.total);
       if (res.data && res.data.result) {
         let arrayData = [];
@@ -161,7 +187,13 @@ const TableUser = (props) => {
   return (
     <>
       <InputSearch handleChangeInputSearch={handleChangeInputSearch} />
-      <RenderHeaderTableUser />
+      <RenderHeaderTableUser
+        open={openModalCreateUser}
+        setOpenModalCreateUser={setOpenModalCreateUser}
+        fetchDataUser={fetchDataUser}
+        openModalUploadFile={openModalUploadFile}
+        setOpenModalUploadFile={setOpenModalUploadFile}
+      />
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -182,6 +214,15 @@ const TableUser = (props) => {
         setOpen={setOpenUserDetail}
         dataUserDetailPage={dataUserDetail}
         setDataUserDetailPage={setDataUserDetail}
+      />
+      <ModalCreateUser
+        open={openModalCreateUser}
+        setOpenModalCreateUser={setOpenModalCreateUser}
+        fetchDataUser={fetchDataUser}
+      />
+      <ModalUploadFile
+        openModalUploadFile={openModalUploadFile}
+        setOpenModalUploadFile={setOpenModalUploadFile}
       />
     </>
   );

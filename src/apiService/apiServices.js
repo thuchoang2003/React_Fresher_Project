@@ -41,10 +41,21 @@ const getUsersWithPaginate = (
   );
   return response;
 };
+const postNewUser = (fullName, password, email, phone) => {
+  const data = {
+    fullName: fullName,
+    password: password,
+    email: email,
+    phone: phone,
+  };
+  let response = instance.post("/user", data);
+  return response;
+};
 export {
   postLogin,
   postRegister,
   fetchAccount,
   postLogout,
   getUsersWithPaginate,
+  postNewUser,
 };

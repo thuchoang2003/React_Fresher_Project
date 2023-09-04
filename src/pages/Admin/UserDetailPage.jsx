@@ -8,7 +8,7 @@ const UserDetailPage = (props) => {
   const onClose = () => {
     setOpen(false);
   };
-  console.log(dataUserDetailPage);
+
   return (
     <>
       <Drawer
