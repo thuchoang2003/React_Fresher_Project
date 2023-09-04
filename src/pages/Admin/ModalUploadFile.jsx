@@ -40,7 +40,6 @@ const ModalUploadFile = (props) => {
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
-
         const file = info.fileList[0].originFileObj;
         const data = await file.arrayBuffer();
         const workbook = XLSX.read(data);
