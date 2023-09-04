@@ -22,6 +22,12 @@ import { doGetAccount } from "./redux/counter/accountSlice";
 import Loading from "./components/Loading/Loading";
 import Admin from "./pages/Admin/admin";
 import ProtectedRoute from "./components/ProtectedRoute/protectedRoute";
+import AdminHomepage from "./pages/Admin/admin";
+import TableUser from "./pages/Admin/TableUser";
+import Dashboard from "./pages/Admin/DashboardAdmin";
+import ManagerBook from "./pages/Admin/Book/ManagerBook";
+import PerfectScrollbar from "react-perfect-scrollbar";
+import "react-perfect-scrollbar/dist/css/styles.css";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -37,11 +43,11 @@ const LayoutAdmin = () => {
   const userRole = user.role;
   return (
     <div className="app-container">
-      {/* <Header /> */}
-      {isAdminRoute && userRole === "ADMIN" && <Header />}
+      {/* {isAdminRoute && userRole === "ADMIN" && <Header />}
       <Outlet />
-      {/* <Footer /> */}
-      {isAdminRoute && userRole === "ADMIN" && <Footer />}
+
+      {isAdminRoute && userRole === "ADMIN" && <Footer />} */}
+      {isAdminRoute && userRole === "ADMIN" && <AdminHomepage />}
     </div>
   );
 };
@@ -67,20 +73,28 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    // element: <LayoutAdmin />,
+    element: <LayoutAdmin />,
     errorElement: <NotFound />,
     children: [
       {
         index: true,
         element: (
           <ProtectedRoute>
-            <Admin />
+            <Dashboard />
           </ProtectedRoute>
         ),
       },
       {
         path: "user",
-        element: <Contact />,
+        element: (
+          <PerfectScrollbar>
+            <TableUser />
+          </PerfectScrollbar>
+        ),
+      },
+      {
+        path: "book",
+        element: <ManagerBook />,
       },
     ],
   },

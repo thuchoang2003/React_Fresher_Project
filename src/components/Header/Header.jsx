@@ -1,16 +1,34 @@
 import {
-  AudioOutlined,
-  HomeOutlined,
-  SmileOutlined,
   ShoppingCartOutlined,
+  SearchOutlined,
+  HomeOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import React from "react";
-import { Input, Space, Badge } from "antd";
+import { Input, Badge, Button, Menu, Dropdown, Avatar } from "antd";
 import "../../assets/scss/Header.scss";
+import { useSelector } from "react-redux";
 const { Search } = Input;
 
 const onSearch = (value) => console.log(value);
-const Header = (props) => {
+
+const Header = () => {
+  const isAuthenticated = useSelector((state) => state.account.user.id);
+  const fullnameUser = useSelector((state) => state.account.user.fullName);
+  const avatar = useSelector((state) => state.account.user.avatar);
+  const avatarUrl = `${
+    import.meta.env.VITE_BACKEND_URL
+  }/images/avatar/${avatar}`;
+  const items = [
+    {
+      key: "1",
+      label: <a>Đăng Nhập</a>,
+    },
+    {
+      key: "2",
+      label: <a>Đăng xuất</a>,
+    },
+  ];
   return (
     <>
       <div className="header-container container">
@@ -26,17 +44,68 @@ const Header = (props) => {
             size="large"
           />
         </div>
-        <div className="header-right">
-          <div className="home-icon">
-            <HomeOutlined style={{ fontSize: "35px", color: "#0060ff" }} />
-            <span>Trang chủ</span>
-          </div>
-          <div className="account-icon">
-            <SmileOutlined style={{ fontSize: "35px", color: "#81818a" }} />
-            <span>Tài khoản</span>
-          </div>
+        <div>
+          <Button
+            type="link"
+            block
+            size="large"
+            icon={<HomeOutlined style={{ fontSize: "23px" }} />}
+            style={{ fontSize: "19px" }}
+          >
+            Trang chủ
+          </Button>
         </div>
-        <div className="icon-seperate"></div>
+        {isAuthenticated ? (
+          <div>
+            <Dropdown
+              menu={{
+                items,
+              }}
+              placement="bottom"
+              arrow={{
+                pointAtCenter: true,
+              }}
+            >
+              <Button
+                icon={<Avatar size={35} src={avatarUrl} />}
+                size="large"
+                type="link"
+                block
+                style={{
+                  fontSize: "19px",
+                  display: "flex",
+                  gap: "4px",
+                  alignItems: "center",
+                }}
+              >
+                {fullnameUser}
+              </Button>
+            </Dropdown>
+          </div>
+        ) : (
+          <div>
+            <Dropdown
+              menu={{
+                items,
+              }}
+              placement="bottom"
+              arrow={{
+                pointAtCenter: true,
+              }}
+            >
+              <Button
+                icon={<UserOutlined style={{ fontSize: "23px" }} />}
+                size="large"
+                type="link"
+                block
+                style={{ fontSize: "19px" }}
+              >
+                Tài khoản
+              </Button>
+            </Dropdown>
+          </div>
+        )}
+
         <div className="icon-cart">
           <Badge count={5}>
             <ShoppingCartOutlined

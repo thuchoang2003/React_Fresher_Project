@@ -16,8 +16,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/counter/accountSlice";
 import { postLogout } from "../../apiService/apiServices";
-
+import { Outlet } from "react-router-dom";
 import TableUser from "./TableUser";
+
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -66,22 +67,13 @@ const AdminHomepage = () => {
           defaultSelectedKeys={["Dashboard"]}
           items={[
             getItem(
-              <Link
-                to="/admin"
-                onClick={() => {
-                  window.location.reload();
-                }}
-              >
-                Dashboard
-              </Link>,
+              <Link to="/admin">Dashboard</Link>,
               "Dashboard",
               <UserOutlined />
             ),
             getItem("Manager Users", "sub2", <MailOutlined />, [
-              getItem("Option 1", "1"),
+              getItem(<Link to="user">CRUD</Link>, "CRUD"),
               getItem("Option 2", "2"),
-              getItem("Option 3", "3"),
-              getItem("Option 4", "4"),
             ]),
             getItem("Manager Books", "sub3", <AppstoreOutlined />, [
               getItem("Option 5", "5"),
@@ -132,6 +124,7 @@ const AdminHomepage = () => {
             </a>
           </Dropdown>
         </Header>
+
         <Content
           style={{
             margin: "24px 16px",
@@ -140,7 +133,8 @@ const AdminHomepage = () => {
             background: colorBgContainer,
           }}
         >
-          <TableUser />
+          {/* <TableUser /> */}
+          <Outlet />
         </Content>
         <Footer
           style={{

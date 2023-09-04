@@ -24,13 +24,20 @@ const postLogout = () => {
   let response = instance.post("/auth/logout");
   return response;
 };
-// const getUsersWithPaginate = (current, pageSize) => {
-//   let response = instance.get(`/user?current=${current}&pageSize=${pageSize}`);
+// const getUsersWithPaginate = (query) => {
+//   let response = instance.get(query);
 //   return response;
 // };
-const getUsersWithPaginate = (current, pageSize, fullName, email, phone) => {
+const getUsersWithPaginate = (
+  current,
+  pageSize,
+  fullName,
+  email,
+  phone,
+  sortType
+) => {
   let response = instance.get(
-    `/user?current=${current}&pageSize=${pageSize}&fullName=/${fullName}/&email=/${email}/&phone=/${phone}/`
+    `/user?current=${current}&pageSize=${pageSize}&fullName=/${fullName}/&email=/${email}/&phone=/${phone}/&sort=${sortType}`
   );
   return response;
 };
