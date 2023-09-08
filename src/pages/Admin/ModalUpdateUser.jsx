@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Button,
@@ -8,36 +8,48 @@ import {
   notification,
   message,
 } from "antd";
-import { postNewUser } from "../../apiService/apiServices.js";
-const ModalCreateUser = (props) => {
+import { updateUser } from "../../apiService/apiServices.js";
+
+const ModalUpdateUser = (props) => {
   const [form] = Form.useForm();
-  const { open, setOpenModalCreateUser } = props;
+  const {
+    openModalUpdateUser,
+    setOpenModalUpdateUser,
+    fetchDataUser,
+    dataUpdateUser,
+  } = props;
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [formValues, setFormValues] = useState({});
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const callAPIAddUser = async (fullName, password, email, phone) => {
-    let response = await postNewUser(fullName, password, email, phone);
-    if (response && response.data) {
-      message.success("Create new user successfull!");
-      await fetchDataUser();
-    } else {
-      console.log(response.message);
+  const fillDataUpdate = () => {
+    console.log(dataUpdateUser);
+    if (dataUpdateUser) {
+      form.setFieldValue("fullname", dataUpdateUser.fullName);
+      form.setFieldValue("email", dataUpdateUser.email);
+      form.setFieldValue("phone", dataUpdateUser.phone);
     }
   };
+  useEffect(() => {
+    fillDataUpdate();
+  }, [dataUpdateUser]);
+  const callAPIUpdateUser = () => {};
   const handleOk = () => {
     form
       .validateFields()
       .then(async (values) => {
         console.log("Received values:", values); // You can access form values here
-        await callAPIAddUser(
-          values.fullname,
-          values.password,
-          values.email,
-          values.phone
-        );
-        setOpenModalCreateUser(false);
+        await updateUser(dataUpdateUser.ID, values.fullname, values.phone);
+        setOpenModalUpdateUser(false);
+        fetchDataUser();
+        notification.success({
+          message: "Success",
+          description: "Update user successfully!",
+          duration: 5,
+        });
       })
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);
@@ -46,14 +58,14 @@ const ModalCreateUser = (props) => {
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
-    setOpenModalCreateUser(false);
+    setOpenModalUpdateUser(false);
   };
 
   return (
     <>
       <Modal
-        title="Tạo tài khoản người dùng mới"
-        open={open}
+        title="Cập nhật người dùng"
+        open={openModalUpdateUser}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
@@ -94,32 +106,11 @@ const ModalCreateUser = (props) => {
             <Input />
           </Form.Item>
 
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <Input />
+          <Form.Item label="Email" name="email">
+            <Input disabled="true" />
           </Form.Item>
           <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Phone"
+            label="Số điện thoại"
             name="phone"
             rules={[
               {
@@ -135,4 +126,4 @@ const ModalCreateUser = (props) => {
     </>
   );
 };
-export default ModalCreateUser;
+export default ModalUpdateUser;

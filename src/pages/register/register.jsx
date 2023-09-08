@@ -51,17 +51,16 @@ const Register = (props) => {
           <hr />
           <Form
             layout="vertical"
-            size="large"
             name="basic"
             labelCol={{
               span: 8,
             }}
             wrapperCol={{
-              span: 16,
+              span: 24,
             }}
             style={{
               maxWidth: 600,
-              padding: "10px 0px",
+              // padding: "10px 0px",
             }}
             initialValues={{
               remember: true,
@@ -71,7 +70,6 @@ const Register = (props) => {
             autoComplete="off"
           >
             <Form.Item
-              size="large"
               label="Fullname"
               name="Fullname"
               rules={[
@@ -81,10 +79,9 @@ const Register = (props) => {
                 },
               ]}
             >
-              <Input size="large" />
+              <Input />
             </Form.Item>
             <Form.Item
-              size="large"
               label="Email"
               name="Email"
               rules={[
@@ -94,11 +91,10 @@ const Register = (props) => {
                 },
               ]}
             >
-              <Input size="large" />
+              <Input />
             </Form.Item>
 
             <Form.Item
-              size="large"
               label="Password"
               name="password"
               rules={[
@@ -108,11 +104,10 @@ const Register = (props) => {
                 },
               ]}
             >
-              <Input.Password size="large" />
+              <Input.Password />
             </Form.Item>
             <Form.Item
-              size="large"
-              label="Telephone number"
+              label="Phone"
               name="Telephone_number"
               rules={[
                 {
@@ -121,7 +116,7 @@ const Register = (props) => {
                 },
               ]}
             >
-              <Input size="large" />
+              <Input />
             </Form.Item>
 
             <Form.Item
@@ -133,7 +128,7 @@ const Register = (props) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                style={{ height: "45px" }}
+                style={{ height: "35px" }}
               >
                 Sign up
               </Button>

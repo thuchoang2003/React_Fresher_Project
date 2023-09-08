@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
   DownOutlined,
   AppstoreOutlined,
   MailOutlined,
@@ -17,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/counter/accountSlice";
 import { postLogout } from "../../apiService/apiServices";
 import { Outlet } from "react-router-dom";
-import TableUser from "./TableUser";
 
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
@@ -58,7 +55,7 @@ const AdminHomepage = () => {
   const navigate = useNavigate();
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed} width={"20%"}>
+      <Sider trigger={null} collapsible collapsed={collapsed} width={"16%"}>
         <div className="demo-logo-vertical" />
         <div className="sidebar-admin_title">Admin</div>
         <Menu
@@ -97,6 +94,7 @@ const AdminHomepage = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            height: 50,
           }}
         >
           <Button
@@ -116,7 +114,7 @@ const AdminHomepage = () => {
             placement="topRight"
           >
             <a>
-              <Space size={"large"}>
+              <Space>
                 Welcome, I'm Admin
                 <DownOutlined />
               </Space>
@@ -126,8 +124,8 @@ const AdminHomepage = () => {
 
         <Content
           style={{
-            margin: "24px 16px",
-            padding: 24,
+            margin: "5px 5px",
+            padding: 5,
             minHeight: 280,
             background: colorBgContainer,
           }}

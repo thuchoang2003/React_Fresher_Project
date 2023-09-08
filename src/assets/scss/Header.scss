@@ -6,8 +6,8 @@
   width: 100vw;
   gap: 20px;
   .div-logo {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     position: relative;
     img {
       position: absolute;
@@ -22,7 +22,7 @@
     .ant-input-group {
       height: 40px;
       input {
-        font-size: 17px;
+        font-size: 15px;
       }
       .ant-input-affix-wrapper {
         height: 40px;
@@ -30,10 +30,10 @@
     }
     .ant-input-group-addon {
       height: 40px;
-      width: 70px;
+      width: 60px;
       .ant-btn {
         height: 40px;
-        width: 70px;
+        width: 60px;
       }
     }
   }

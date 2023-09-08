@@ -18,6 +18,7 @@ import UserDetailPage from "./UserDetailPage.jsx";
 import ModalCreateUser from "./ModalCreateUser.jsx";
 import ModalUploadFile from "./ModalUploadFile.jsx";
 import * as XLSX from "xlsx";
+import ModalUpdateUser from "./ModalUpdateUser.jsx";
 
 const RenderHeaderTableUser = (props) => {
   const {
@@ -91,7 +92,7 @@ const RenderHeaderTableUser = (props) => {
 const TableUser = (props) => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(8);
+  const [pageSize, setPageSize] = useState(7);
   const [total, setTotal] = useState(1);
   const [dataSource, setDataSource] = useImmer([]);
   const [fullname, setFullname] = useState("");
@@ -102,6 +103,8 @@ const TableUser = (props) => {
   const [dataUserDetail, setDataUserDetail] = useState();
   const [openModalCreateUser, setOpenModalCreateUser] = useState(false);
   const [openModalUploadFile, setOpenModalUploadFile] = useState(false);
+  const [openModalUpdateUser, setOpenModalUpdateUser] = useState(false);
+  const [dataUpdateUser, setDataUpdateUser] = useState();
   const handleChangeInputSearch = (fullname, email, phone) => {
     setFullname(fullname);
     setEmail(email);
@@ -112,7 +115,7 @@ const TableUser = (props) => {
     if (res && res.data) {
       notification.success({
         message: "Success",
-        description: "This is a success notification.",
+        description: "Delete user successfully!",
         duration: 5,
       });
       fetchDataUser();
@@ -190,6 +193,10 @@ const TableUser = (props) => {
             <Button
               icon={<EditOutlined style={{ fontSize: "17px" }} />}
               type="text"
+              onClick={() => {
+                setOpenModalUpdateUser(!openModalUpdateUser);
+                setDataUpdateUser(record);
+              }}
             ></Button>
           </div>
         );
@@ -284,6 +291,12 @@ const TableUser = (props) => {
         openModalUploadFile={openModalUploadFile}
         setOpenModalUploadFile={setOpenModalUploadFile}
         fetchDataUser={fetchDataUser}
+      />
+      <ModalUpdateUser
+        openModalUpdateUser={openModalUpdateUser}
+        setOpenModalUpdateUser={setOpenModalUpdateUser}
+        fetchDataUser={fetchDataUser}
+        dataUpdateUser={dataUpdateUser}
       />
     </>
   );

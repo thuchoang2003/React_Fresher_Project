@@ -48,8 +48,8 @@ const Header = () => {
             type="link"
             block
             size="large"
-            icon={<HomeOutlined style={{ fontSize: "23px" }} />}
-            style={{ fontSize: "19px" }}
+            icon={<HomeOutlined style={{ fontSize: "20px" }} />}
+            style={{ fontSize: "17px" }}
           >
             Trang chủ
           </Button>
@@ -66,12 +66,12 @@ const Header = () => {
               }}
             >
               <Button
-                icon={<Avatar size={35} src={avatarUrl} />}
+                icon={<Avatar size={27} src={avatarUrl} />}
                 size="large"
                 type="link"
                 block
                 style={{
-                  fontSize: "19px",
+                  fontSize: "17px",
                   display: "flex",
                   gap: "4px",
                   alignItems: "center",
@@ -93,11 +93,11 @@ const Header = () => {
               }}
             >
               <Button
-                icon={<UserOutlined style={{ fontSize: "23px" }} />}
+                icon={<UserOutlined style={{ fontSize: "17px" }} />}
                 size="large"
                 type="link"
                 block
-                style={{ fontSize: "19px" }}
+                style={{ fontSize: "17px" }}
               >
                 Tài khoản
               </Button>
@@ -108,7 +108,7 @@ const Header = () => {
         <div className="icon-cart">
           <Badge count={5}>
             <ShoppingCartOutlined
-              style={{ fontSize: "35px", color: "#0060ff" }}
+              style={{ fontSize: "25px", color: "#0060ff" }}
             />
           </Badge>
         </div>

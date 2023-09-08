@@ -59,6 +59,15 @@ const deleteUser = (id) => {
   let response = instance.delete(`/user/${id}`);
   return response;
 };
+const updateUser = (id, fullName, phone) => {
+  const data = {
+    _id: id,
+    fullName: fullName,
+    phone: phone,
+  };
+  let response = instance.put("/user", data);
+  return response;
+};
 export {
   postLogin,
   postRegister,
@@ -68,4 +77,5 @@ export {
   postNewUser,
   postListUser,
   deleteUser,
+  updateUser,
 };
