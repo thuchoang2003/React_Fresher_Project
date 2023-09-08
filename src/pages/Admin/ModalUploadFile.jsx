@@ -2,15 +2,36 @@ import React, { useState } from "react";
 import { Button, Modal, message, Upload, Table } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import * as XLSX from "xlsx/xlsx.mjs";
-
+import { postNewUser, postListUser } from "../../apiService/apiServices.js";
+import dataListUser from "./dataListUser.xlsx?url";
 const ModalUploadFile = (props) => {
   const { openModalUploadFile, setOpenModalUploadFile } = props;
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("Content of the modal");
   const [dataImportUser, setDataImportUser] = useState();
+
+  const callAPIPostListUser = async () => {
+    const defaultPassword = "123456";
+    let cloneDataImport = dataImportUser.map((item, index) => {
+      return {
+        fullName: item.Fullname,
+        password: defaultPassword,
+        email: item.email,
+        phone: item.phone,
+      };
+    });
+    let res = await postListUser(cloneDataImport);
+    if (res && res.data) {
+      message.success("Import data successfully!");
+      setDataImportUser([]);
+      props.fetchDataUser();
+    } else {
+      console.log(res.message);
+    }
+  };
   const handleOk = () => {
-    setModalText("The modal will be closed after two seconds");
     setConfirmLoading(true);
+    callAPIPostListUser();
     setTimeout(() => {
       setOpenModalUploadFile(false);
       setConfirmLoading(false);
@@ -37,6 +58,7 @@ const ModalUploadFile = (props) => {
       const { status } = info.file;
       if (status !== "uploading") {
         console.log(info.file, info.fileList);
+        setDataImportUser([]);
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`);
@@ -48,6 +70,7 @@ const ModalUploadFile = (props) => {
           header: ["Fullname", "email", "phone"],
           range: 1,
         });
+        console.log(jsonData);
         setDataImportUser(jsonData);
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`);
@@ -78,6 +101,15 @@ const ModalUploadFile = (props) => {
           </p>
           <p className="ant-upload-hint">
             Support for a single or bulk upload. Only accept .csv .xls .xlsx
+            <a
+              href={dataListUser}
+              download
+              id="download"
+              style={{ marginLeft: "10px" }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              Download file
+            </a>
           </p>
         </Dragger>
         <TableDataUserUpload dataImportUser={dataImportUser} />

@@ -40,8 +40,7 @@ const Header = () => {
             placeholder="Tìm kiếm"
             allowClear
             onSearch={onSearch}
-            style={{ width: 1000, height: 50 }}
-            size="large"
+            // style={{ width: 700, height: 40 }}
           />
         </div>
         <div>

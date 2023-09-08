@@ -58,7 +58,7 @@ const AdminHomepage = () => {
   const navigate = useNavigate();
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed} width={300}>
+      <Sider trigger={null} collapsible collapsed={collapsed} width={"20%"}>
         <div className="demo-logo-vertical" />
         <div className="sidebar-admin_title">Admin</div>
         <Menu
@@ -114,7 +114,6 @@ const AdminHomepage = () => {
               items,
             }}
             placement="topRight"
-            size="large"
           >
             <a>
               <Space size={"large"}>
@@ -136,13 +135,13 @@ const AdminHomepage = () => {
           {/* <TableUser /> */}
           <Outlet />
         </Content>
-        <Footer
+        {/* <Footer
           style={{
             textAlign: "center",
           }}
         >
           Ant Design ©2023 Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );

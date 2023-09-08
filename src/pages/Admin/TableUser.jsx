@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Table, theme, Button } from "antd";
+import { Table, theme, Button, notification } from "antd";
 import {
   DownloadOutlined,
   ImportOutlined,
   PlusOutlined,
   ReloadOutlined,
+  DeleteOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
-import { getUsersWithPaginate } from "../../apiService/apiServices.js";
+import {
+  getUsersWithPaginate,
+  deleteUser,
+} from "../../apiService/apiServices.js";
 import { useImmer } from "use-immer";
 import InputSearch from "./InputSearch";
 import UserDetailPage from "./UserDetailPage.jsx";
 import ModalCreateUser from "./ModalCreateUser.jsx";
 import ModalUploadFile from "./ModalUploadFile.jsx";
+import * as XLSX from "xlsx";
 
 const RenderHeaderTableUser = (props) => {
   const {
@@ -20,7 +26,17 @@ const RenderHeaderTableUser = (props) => {
     fetchDataUser,
     openModalUploadFile,
     setOpenModalUploadFile,
+    dataSource,
   } = props;
+
+  const handleExportData = () => {
+    if (dataSource.length > 0) {
+      const worksheet = XLSX.utils.json_to_sheet(dataSource);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+      XLSX.writeFile(workbook, "DataExportUser.xlsx");
+    }
+  };
   return (
     <>
       <div
@@ -34,7 +50,13 @@ const RenderHeaderTableUser = (props) => {
         }}
       >
         <div className="div-btn" style={{ display: "flex", gap: "7px" }}>
-          <Button type="primary" icon={<DownloadOutlined />}>
+          <Button
+            type="primary"
+            icon={<DownloadOutlined />}
+            onClick={() => {
+              handleExportData();
+            }}
+          >
             Export
           </Button>
           <Button
@@ -84,6 +106,19 @@ const TableUser = (props) => {
     setFullname(fullname);
     setEmail(email);
     setPhone(phone);
+  };
+  const handleDeleteUser = async (id) => {
+    let res = await deleteUser(id);
+    if (res && res.data) {
+      notification.success({
+        message: "Success",
+        description: "This is a success notification.",
+        duration: 5,
+      });
+      fetchDataUser();
+    } else {
+      console.log(res);
+    }
   };
   const columns = [
     {
@@ -135,6 +170,30 @@ const TableUser = (props) => {
       dataIndex: "active",
       key: "active",
       sorter: true,
+    },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+      render: (text, record, index) => {
+        return (
+          <div>
+            <Button
+              icon={
+                <DeleteOutlined style={{ color: "red", fontSize: "17px" }} />
+              }
+              type="text"
+              onClick={() => {
+                handleDeleteUser(record.ID);
+              }}
+            ></Button>
+            <Button
+              icon={<EditOutlined style={{ fontSize: "17px" }} />}
+              type="text"
+            ></Button>
+          </div>
+        );
+      },
     },
   ];
 
@@ -193,6 +252,7 @@ const TableUser = (props) => {
         fetchDataUser={fetchDataUser}
         openModalUploadFile={openModalUploadFile}
         setOpenModalUploadFile={setOpenModalUploadFile}
+        dataSource={dataSource}
       />
       <Table
         dataSource={dataSource}
@@ -223,6 +283,7 @@ const TableUser = (props) => {
       <ModalUploadFile
         openModalUploadFile={openModalUploadFile}
         setOpenModalUploadFile={setOpenModalUploadFile}
+        fetchDataUser={fetchDataUser}
       />
     </>
   );

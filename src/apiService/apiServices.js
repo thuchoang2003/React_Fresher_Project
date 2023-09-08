@@ -51,6 +51,14 @@ const postNewUser = (fullName, password, email, phone) => {
   let response = instance.post("/user", data);
   return response;
 };
+const postListUser = (data) => {
+  let response = instance.post("/user/bulk-create", data);
+  return response;
+};
+const deleteUser = (id) => {
+  let response = instance.delete(`/user/${id}`);
+  return response;
+};
 export {
   postLogin,
   postRegister,
@@ -58,4 +66,6 @@ export {
   postLogout,
   getUsersWithPaginate,
   postNewUser,
+  postListUser,
+  deleteUser,
 };

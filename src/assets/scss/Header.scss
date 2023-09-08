@@ -4,7 +4,7 @@
   align-items: center;
   height: 100px;
   width: 100vw;
-  gap: 50px;
+  gap: 20px;
   .div-logo {
     width: 100px;
     height: 100px;
@@ -18,20 +18,21 @@
     }
   }
   .div-search {
+    width: 40%;
     .ant-input-group {
-      height: 50px;
+      height: 40px;
       input {
         font-size: 17px;
       }
       .ant-input-affix-wrapper {
-        height: 50px;
+        height: 40px;
       }
     }
     .ant-input-group-addon {
-      height: 50px;
+      height: 40px;
       width: 70px;
       .ant-btn {
-        height: 50px;
+        height: 40px;
         width: 70px;
       }
     }

@@ -44,14 +44,13 @@ const items = [
 const SideBar = (props) => {
   return (
     <>
-      <div style={{ width: 300, height: "100vh" }} className="div-sidebar">
+      <div className="div-sidebar">
         <div className="title_Sidebar">Danh mục</div>
         <Menu
           defaultSelectedKeys={["1"]}
           mode="inline"
           theme="light"
           items={items}
-          style={{ width: "300px" }}
         />
       </div>
     </>
