@@ -28,6 +28,7 @@ import Dashboard from "./pages/Admin/DashboardAdmin";
 import ManagerBook from "./pages/Admin/Book/ManagerBook";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import NotPermitted from "./pages/NotPermitted/NotPermitted";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -43,11 +44,8 @@ const LayoutAdmin = () => {
   const userRole = user.role;
   return (
     <div className="app-container">
-      {/* {isAdminRoute && userRole === "ADMIN" && <Header />}
-      <Outlet />
-
-      {isAdminRoute && userRole === "ADMIN" && <Footer />} */}
       {isAdminRoute && userRole === "ADMIN" && <AdminHomepage />}
+      {isAdminRoute && userRole === "USER" && <NotPermitted />}
     </div>
   );
 };

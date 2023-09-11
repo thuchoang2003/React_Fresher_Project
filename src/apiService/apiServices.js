@@ -68,6 +68,10 @@ const updateUser = (id, fullName, phone) => {
   let response = instance.put("/user", data);
   return response;
 };
+const getAllBooksWithPaginate = (query) => {
+  let response = instance.get(query);
+  return response;
+};
 export {
   postLogin,
   postRegister,
@@ -78,4 +82,5 @@ export {
   postListUser,
   deleteUser,
   updateUser,
+  getAllBooksWithPaginate,
 };

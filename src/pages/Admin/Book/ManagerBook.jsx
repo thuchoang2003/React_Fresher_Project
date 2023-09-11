@@ -1,4 +1,10 @@
+import TableBook from "./TableBook";
+
 const ManagerBook = (props) => {
-  return <>ManagerBook</>;
+  return (
+    <>
+      <TableBook />
+    </>
+  );
 };
 export default ManagerBook;

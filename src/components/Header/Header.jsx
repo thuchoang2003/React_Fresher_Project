@@ -8,6 +8,9 @@ import React from "react";
 import { Input, Badge, Button, Menu, Dropdown, Avatar } from "antd";
 import "../../assets/scss/Header.scss";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { doLogout } from "../../redux/counter/accountSlice.js";
+import { useDispatch } from "react-redux";
 const { Search } = Input;
 
 const onSearch = (value) => console.log(value);
@@ -19,16 +22,39 @@ const Header = () => {
   const avatarUrl = `${
     import.meta.env.VITE_BACKEND_URL
   }/images/avatar/${avatar}`;
-  const items = [
+  const navigate = useNavigate();
+  const dispath = useDispatch();
+  const itemsNotLogin = [
     {
       key: "1",
       label: <a>Đăng Nhập</a>,
+      onClick: () => {
+        navigate("/login");
+      },
     },
     {
       key: "2",
-      label: <a>Đăng xuất</a>,
+      label: <a>Đăng ký</a>,
+      onClick: () => {
+        navigate("/register");
+      },
     },
   ];
+  const itemsLogin = [
+    {
+      key: "3",
+      label: <a>Quản lý trang cá nhân</a>,
+    },
+    {
+      key: "4",
+      label: <a>Đăng xuất</a>,
+      onClick: () => {
+        dispath(doLogout());
+        navigate("/login");
+      },
+    },
+  ];
+
   return (
     <>
       <div className="header-container container">
@@ -36,12 +62,7 @@ const Header = () => {
           <img src="https://salt.tikicdn.com/ts/upload/c1/64/f7/4e6e925ea554fc698123ea71ed7bda26.png"></img>
         </div>
         <div className="div-search">
-          <Search
-            placeholder="Tìm kiếm"
-            allowClear
-            onSearch={onSearch}
-            // style={{ width: 700, height: 40 }}
-          />
+          <Search placeholder="Tìm kiếm" allowClear onSearch={onSearch} />
         </div>
         <div>
           <Button
@@ -57,9 +78,7 @@ const Header = () => {
         {isAuthenticated ? (
           <div>
             <Dropdown
-              menu={{
-                items,
-              }}
+              menu={{ items: itemsLogin }}
               placement="bottom"
               arrow={{
                 pointAtCenter: true,
@@ -84,9 +103,7 @@ const Header = () => {
         ) : (
           <div>
             <Dropdown
-              menu={{
-                items,
-              }}
+              menu={{ items: itemsNotLogin }}
               placement="bottom"
               arrow={{
                 pointAtCenter: true,
