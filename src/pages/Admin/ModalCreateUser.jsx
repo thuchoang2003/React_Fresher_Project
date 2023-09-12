@@ -70,9 +70,6 @@ const ModalCreateUser = (props) => {
           style={{
             maxWidth: 600,
           }}
-          initialValues={{
-            remember: true,
-          }}
           onFinish={(values) => {
             setFormValues(values); // Update the state with form values
           }}

@@ -9,14 +9,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 const RenderHeaderTableBook = (props) => {
-  //   const {
-  //     open,
-  //     setOpenModalCreateUser,
-  //     fetchDataUser,
-  //     openModalUploadFile,
-  //     setOpenModalUploadFile,
-  //     dataSource,
-  //   } = props;
+  const { fetchDataBook, openCreateBook, setOpenCreateBook } = props;
 
   //   const handleExportData = () => {
   //     if (dataSource.length > 0) {
@@ -60,17 +53,17 @@ const RenderHeaderTableBook = (props) => {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            //     onClick={() => {
-            //       setOpenModalCreateUser(!open);
-            //     }}
+            onClick={() => {
+              setOpenCreateBook(!openCreateBook);
+            }}
           >
             Thêm mới
           </Button>
           <Button
             icon={<ReloadOutlined />}
-            //     onClick={() => {
-            //       fetchDataUser();
-            //     }}
+            onClick={() => {
+              fetchDataBook();
+            }}
           />
         </div>
       </div>

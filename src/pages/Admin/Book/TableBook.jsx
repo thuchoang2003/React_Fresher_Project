@@ -12,18 +12,28 @@ import {
 } from "@ant-design/icons";
 import { useImmer } from "use-immer";
 import RenderHeaderTableBook from "./RenderHeaderTableBook";
-import { getAllBooksWithPaginate } from "../../../apiService/apiServices.js";
+import {
+  getAllBooksWithPaginate,
+  getBookCategory,
+} from "../../../apiService/apiServices.js";
 import InputSearchBook from "./InputSearchBook";
+import BookDetailPage from "./BookDetailPage";
+import ModalCreateBook from "./ModalCreateBook";
 
 const TableBook = (props) => {
   const [current, setCurrent] = useState(1);
-  const [pageSize, setPageSize] = useState(7);
+  const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(1);
   const [dataSource, setDataSource] = useImmer([]);
   const [queryFetchData, setQueryFetchData] = useState(
     `/book?current=${current}&pageSize=${pageSize}`
   );
   const [queryFilter, setQueryFilter] = useState();
+  const [openBookDetail, setOpenBookDetail] = useState(false);
+  const [dataBookDetail, setDataBookDetail] = useState();
+  const [openCreateBook, setOpenCreateBook] = useState(false);
+  const [dataCategory, setDataCategory] = useState();
+
   const columns = [
     {
       title: "ID",
@@ -34,10 +44,11 @@ const TableBook = (props) => {
         return (
           <a
             href="#"
-            //   onClick={() => {
-            //     setOpenUserDetail(!openUserDetail);
-            //     setDataUserDetail(record);
-            //   }}
+            onClick={(event) => {
+              event.preventDefault();
+              setOpenBookDetail(!openBookDetail);
+              setDataBookDetail(record);
+            }}
           >
             {record.ID}
           </a>
@@ -72,8 +83,8 @@ const TableBook = (props) => {
     },
     {
       title: "Ngày cập nhật",
-      dataIndex: "updateAt",
-      key: "updateAt",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       sorter: true,
     },
     {
@@ -128,6 +139,7 @@ const TableBook = (props) => {
 
       if (res.data && res.data.result) {
         let arrayData = [];
+
         arrayData = res.data.result.map((item, index) => {
           return {
             key: index,
@@ -136,7 +148,12 @@ const TableBook = (props) => {
             type: item.category,
             author: item.author,
             price: item.price,
-            updateAt: moment(item.createdAt).format("DD-MM-YYYY hh:mm:ss"),
+            updatedAt: moment(item.updateAt).format("DD-MM-YYYY hh:mm:ss"),
+            createdAt: moment(item.createdAt).format("DD-MM-YYYY hh:mm:ss"),
+            quantity: item.quantity,
+            sold: item.sold,
+            thumbnail: item.thumbnail,
+            slider: item.slider,
           };
         });
         setDataSource(arrayData);
@@ -159,8 +176,16 @@ const TableBook = (props) => {
     //    else if (sorter.order === "descend") setSortedInfo(`-${sorter.field}`);
     //    else setSortedInfo("");
   };
+
+  const getValueCategory = async () => {
+    let res = await getBookCategory();
+    if (res && res.data) {
+      setDataCategory(res.data);
+    } else console.log(res);
+  };
   useEffect(() => {
     fetchDataBook();
+    getValueCategory();
   }, [current, pageSize, queryFetchData, queryFilter]);
   return (
     <>
@@ -168,7 +193,11 @@ const TableBook = (props) => {
         handleChangeQueryFilter={handleChangeQueryFilter}
         handleClearQueryFilter={handleClearQueryFilter}
       />
-      <RenderHeaderTableBook />
+      <RenderHeaderTableBook
+        fetchDataBook={fetchDataBook}
+        openCreateBook={openCreateBook}
+        setOpenCreateBook={setOpenCreateBook}
+      />
       <Table
         dataSource={dataSource}
         columns={columns}
@@ -182,6 +211,18 @@ const TableBook = (props) => {
           showSizeChanger: true,
           onChange: handleChangePage,
         }}
+      />
+      <BookDetailPage
+        open={openBookDetail}
+        setOpen={setOpenBookDetail}
+        dataBookDetailPage={dataBookDetail}
+        setDataBookDetailPage={setDataBookDetail}
+      />
+      <ModalCreateBook
+        openModalCreateBook={openCreateBook}
+        setOpenModalCreateBook={setOpenCreateBook}
+        dataCategory={dataCategory}
+        fetchDataBook={fetchDataBook}
       />
     </>
   );

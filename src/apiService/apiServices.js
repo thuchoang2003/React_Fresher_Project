@@ -72,6 +72,24 @@ const getAllBooksWithPaginate = (query) => {
   let response = instance.get(query);
   return response;
 };
+const postCreateNewBook = (data) => {
+  let Data = {
+    thumbnail: data.thumbnail,
+    slider: data.slider,
+    mainText: data.mainText,
+    author: data.author,
+    price: data.price,
+    sold: data.sold,
+    quantity: data.quantity,
+    category: data.category,
+  };
+  let response = instance.post("/book", Data);
+  return response;
+};
+const getBookCategory = () => {
+  let res = instance.get("/database/category");
+  return res;
+};
 export {
   postLogin,
   postRegister,
@@ -83,4 +101,6 @@ export {
   deleteUser,
   updateUser,
   getAllBooksWithPaginate,
+  postCreateNewBook,
+  getBookCategory,
 };
