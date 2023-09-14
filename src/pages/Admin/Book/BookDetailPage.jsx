@@ -31,32 +31,7 @@ const BookDetailPage = (props) => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([
-    {
-      uid: "-1",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-2",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-3",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-    {
-      uid: "-4",
-      name: "image.png",
-      status: "done",
-      url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    },
-  ]);
+  const [fileList, setFileList] = useState([]);
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -66,7 +41,6 @@ const BookDetailPage = (props) => {
     });
 
   useEffect(() => {
-    console.log(dataBookDetailPage);
     if (dataBookDetailPage && dataBookDetailPage.thumbnail) {
       let imgThumnail = {
         uid: uuidv4(),

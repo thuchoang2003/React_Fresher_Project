@@ -15,6 +15,8 @@ import BookDetailPage from "./BookDetailPage";
 
 import BookModalCreate from "./BookModalCreate";
 
+import BookModalUpdate from "./BookModalUpdate";
+
 const TableBook = (props) => {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -27,9 +29,10 @@ const TableBook = (props) => {
   const [openBookDetail, setOpenBookDetail] = useState(false);
   const [dataBookDetail, setDataBookDetail] = useState();
   const [openCreateBook, setOpenCreateBook] = useState(false);
+  const [openUpdateBook, setOpenUpdateBook] = useState(false);
   const [dataCategory, setDataCategory] = useState();
   const [sortQuery, setSortQuery] = useState("-updatedAt");
-
+  const [dataBookUpdate, setDataBookUpdate] = useState();
   const columns = [
     {
       title: "ID",
@@ -103,6 +106,10 @@ const TableBook = (props) => {
             <Button
               icon={<EditOutlined style={{ fontSize: "17px" }} />}
               type="text"
+              onClick={() => {
+                setOpenUpdateBook(!openUpdateBook);
+                setDataBookUpdate(record);
+              }}
             ></Button>
           </div>
         );
@@ -173,12 +180,11 @@ const TableBook = (props) => {
   };
 
   const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", sorter);
     let query = "";
     if (sorter.order === "descend") query = `-${sorter.field}`;
     else if (sorter.order === "ascend") query = `${sorter.field}`;
     else if (sorter.order === undefined) query = "-updatedAt";
-    console.log(query);
+
     setSortQuery(query);
   };
 
@@ -236,15 +242,18 @@ const TableBook = (props) => {
         dataBookDetailPage={dataBookDetail}
         setDataBookDetailPage={setDataBookDetail}
       />
-      {/* <ModalCreateBook
-        openModalCreateBook={openCreateBook}
-        setOpenModalCreateBook={setOpenCreateBook}
-        dataCategory={dataCategory}
-        fetchDataBook={fetchDataBook}
-      /> */}
+
       <BookModalCreate
         openModalCreate={openCreateBook}
         setOpenModalCreate={setOpenCreateBook}
+        fetchDataBook={fetchDataBook}
+      />
+
+      <BookModalUpdate
+        openModalUpdate={openUpdateBook}
+        setOpenModalUpdate={setOpenUpdateBook}
+        dataUpdate={dataBookUpdate}
+        setDataUpdate={setDataBookUpdate}
         fetchDataBook={fetchDataBook}
       />
     </>

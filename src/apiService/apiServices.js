@@ -105,6 +105,20 @@ const callUploadBookImg = (fileImg) => {
     },
   });
 };
+const callUpdateBook = (data, id) => {
+  let Data = {
+    thumbnail: data.thumbnail,
+    slider: data.slider,
+    mainText: data.mainText,
+    author: data.author,
+    price: data.price,
+    sold: data.sold,
+    quantity: data.quantity,
+    category: data.category,
+  };
+  let response = instance.put(`/book/${id}`, Data);
+  return response;
+};
 
 export {
   postLogin,
@@ -121,4 +135,5 @@ export {
   getBookCategory,
   deleteABook,
   callUploadBookImg,
+  callUpdateBook,
 };
