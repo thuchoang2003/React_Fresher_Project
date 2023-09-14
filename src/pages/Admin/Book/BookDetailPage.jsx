@@ -113,13 +113,13 @@ const BookDetailPage = (props) => {
             {dataBookDetailPage?.ID}
           </Descriptions.Item>
           <Descriptions.Item label="Tên sách">
-            {dataBookDetailPage?.Nameofbook}
+            {dataBookDetailPage?.mainText}
           </Descriptions.Item>
           <Descriptions.Item label="Tác giả">
             {dataBookDetailPage?.author}
           </Descriptions.Item>
           <Descriptions.Item label="Thể loại">
-            {dataBookDetailPage?.type}
+            {dataBookDetailPage?.category}
           </Descriptions.Item>
           <Descriptions.Item label="Giá bán">
             {dataBookDetailPage?.price}

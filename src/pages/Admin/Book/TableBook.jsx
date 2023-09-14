@@ -2,23 +2,18 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 
 import { Table, theme, Button, notification } from "antd";
-import {
-  DownloadOutlined,
-  ImportOutlined,
-  PlusOutlined,
-  ReloadOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useImmer } from "use-immer";
 import RenderHeaderTableBook from "./RenderHeaderTableBook";
 import {
   getAllBooksWithPaginate,
   getBookCategory,
+  deleteABook,
 } from "../../../apiService/apiServices.js";
 import InputSearchBook from "./InputSearchBook";
 import BookDetailPage from "./BookDetailPage";
-import ModalCreateBook from "./ModalCreateBook";
+
+import BookModalCreate from "./BookModalCreate";
 
 const TableBook = (props) => {
   const [current, setCurrent] = useState(1);
@@ -28,11 +23,12 @@ const TableBook = (props) => {
   const [queryFetchData, setQueryFetchData] = useState(
     `/book?current=${current}&pageSize=${pageSize}`
   );
-  const [queryFilter, setQueryFilter] = useState();
+  const [queryFilter, setQueryFilter] = useState("");
   const [openBookDetail, setOpenBookDetail] = useState(false);
   const [dataBookDetail, setDataBookDetail] = useState();
   const [openCreateBook, setOpenCreateBook] = useState(false);
   const [dataCategory, setDataCategory] = useState();
+  const [sortQuery, setSortQuery] = useState("-updatedAt");
 
   const columns = [
     {
@@ -57,15 +53,15 @@ const TableBook = (props) => {
     },
     {
       title: "Tên sách",
-      dataIndex: "Nameofbook",
-      key: "Nameofbook",
+      dataIndex: "mainText",
+      key: "mainText",
       sorter: true,
     },
 
     {
       title: "Thể loại",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "category",
+      key: "category",
       sorter: true,
     },
 
@@ -100,6 +96,9 @@ const TableBook = (props) => {
                 <DeleteOutlined style={{ color: "red", fontSize: "17px" }} />
               }
               type="text"
+              onClick={() => {
+                handleDeleteABook(record.ID);
+              }}
             ></Button>
             <Button
               icon={<EditOutlined style={{ fontSize: "17px" }} />}
@@ -133,7 +132,9 @@ const TableBook = (props) => {
     }
   };
   const fetchDataBook = async () => {
-    let res = await getAllBooksWithPaginate(queryFetchData);
+    let res = await getAllBooksWithPaginate(
+      queryFetchData + "&sort=" + sortQuery
+    );
     if (res && res.data) {
       setTotal(res?.data?.meta?.total);
 
@@ -144,8 +145,8 @@ const TableBook = (props) => {
           return {
             key: index,
             ID: item._id,
-            Nameofbook: item.mainText,
-            type: item.category,
+            mainText: item.mainText,
+            category: item.category,
             author: item.author,
             price: item.price,
             updatedAt: moment(item.updateAt).format("DD-MM-YYYY hh:mm:ss"),
@@ -170,11 +171,15 @@ const TableBook = (props) => {
       `/book?current=${page}&pageSize=${pageSize}` + queryFilter
     );
   };
+
   const onChange = (pagination, filters, sorter, extra) => {
     console.log("params", sorter);
-    //    if (sorter.order === "ascend") setSortedInfo(`${sorter.field}`);
-    //    else if (sorter.order === "descend") setSortedInfo(`-${sorter.field}`);
-    //    else setSortedInfo("");
+    let query = "";
+    if (sorter.order === "descend") query = `-${sorter.field}`;
+    else if (sorter.order === "ascend") query = `${sorter.field}`;
+    else if (sorter.order === undefined) query = "-updatedAt";
+    console.log(query);
+    setSortQuery(query);
   };
 
   const getValueCategory = async () => {
@@ -183,10 +188,23 @@ const TableBook = (props) => {
       setDataCategory(res.data);
     } else console.log(res);
   };
+  const handleDeleteABook = async (id) => {
+    if (id) {
+      let res = await deleteABook(id);
+      if (res && res.data) {
+        notification.success({
+          message: "Success",
+          description: "Delete a  book successfully!",
+          duration: 5,
+        });
+        fetchDataBook();
+      } else console.log(res);
+    }
+  };
   useEffect(() => {
     fetchDataBook();
     getValueCategory();
-  }, [current, pageSize, queryFetchData, queryFilter]);
+  }, [current, pageSize, queryFetchData, queryFilter, sortQuery]);
   return (
     <>
       <InputSearchBook
@@ -218,10 +236,15 @@ const TableBook = (props) => {
         dataBookDetailPage={dataBookDetail}
         setDataBookDetailPage={setDataBookDetail}
       />
-      <ModalCreateBook
+      {/* <ModalCreateBook
         openModalCreateBook={openCreateBook}
         setOpenModalCreateBook={setOpenCreateBook}
         dataCategory={dataCategory}
+        fetchDataBook={fetchDataBook}
+      /> */}
+      <BookModalCreate
+        openModalCreate={openCreateBook}
+        setOpenModalCreate={setOpenCreateBook}
         fetchDataBook={fetchDataBook}
       />
     </>

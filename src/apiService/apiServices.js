@@ -90,6 +90,22 @@ const getBookCategory = () => {
   let res = instance.get("/database/category");
   return res;
 };
+const deleteABook = (id) => {
+  let response = instance.delete(`/book/${id}`);
+  return response;
+};
+const callUploadBookImg = (fileImg) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", fileImg);
+
+  return instance.post("/file/upload", bodyFormData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "book",
+    },
+  });
+};
+
 export {
   postLogin,
   postRegister,
@@ -103,4 +119,6 @@ export {
   getAllBooksWithPaginate,
   postCreateNewBook,
   getBookCategory,
+  deleteABook,
+  callUploadBookImg,
 };
