@@ -34,7 +34,7 @@ const Layout = () => {
     <div className="app-container">
       <Header />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
-        path: "book",
+        path: "book/:slug",
         element: <Book />,
       },
     ],

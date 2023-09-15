@@ -4,7 +4,7 @@ import "../../assets/scss/Homepage.scss";
 const Homepage = (props) => {
   return (
     <div className="div-homepage">
-      <SideBar />
+      {/* <SideBar /> */}
       <Content />
     </div>
   );

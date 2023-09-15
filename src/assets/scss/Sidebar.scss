@@ -2,7 +2,9 @@
   border: 1px solid #bdbdbd;
   border-radius: 20px;
   width: 20%;
-  height: 100vh;
+  height: auto;
+  background-color: white;
+  // margin-top: -100px;
   .title_Sidebar {
     display: flex;
     justify-content: flex-start;
@@ -14,7 +16,7 @@
   .ant-menu {
     border-radius: 20px;
     .ant-menu-item {
-      height: 40px;
+      height: 35px;
       .anticon {
         font-size: 15px;
       }
