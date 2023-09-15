@@ -159,7 +159,7 @@ const MainContent = (props) => {
                     disabled
                     style={{
                       color: "#ffce3d",
-                      fontSize: 15,
+                      fontSize: 10,
                       padding: "5px",
                     }}
                   ></Rate>

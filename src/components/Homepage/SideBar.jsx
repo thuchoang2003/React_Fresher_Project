@@ -151,22 +151,47 @@ const SideBar = (props) => {
           <Rate
             tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
             value={5}
+            style={{
+              color: "#ffce3d",
+              fontSize: 12,
+              padding: "5px",
+            }}
           />
           <Rate
             tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
             value={4}
+            style={{
+              color: "#ffce3d",
+              fontSize: 12,
+              padding: "5px",
+            }}
           />
           <Rate
             tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
             value={3}
+            style={{
+              color: "#ffce3d",
+              fontSize: 12,
+              padding: "5px",
+            }}
           />
           <Rate
             tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
             value={2}
+            style={{
+              color: "#ffce3d",
+              fontSize: 12,
+              padding: "5px",
+            }}
           />
           <Rate
             tooltips={["terrible", "bad", "normal", "good", "wonderful"]}
             value={1}
+            style={{
+              color: "#ffce3d",
+              fontSize: 12,
+              padding: "5px",
+            }}
           />
         </div>
       </div>

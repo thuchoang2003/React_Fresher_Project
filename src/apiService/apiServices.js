@@ -119,6 +119,10 @@ const callUpdateBook = (data, id) => {
   let response = instance.put(`/book/${id}`, Data);
   return response;
 };
+const getDetailBookWithId = (id) => {
+  let response = instance.get(`/book/${id}`);
+  return response;
+};
 
 export {
   postLogin,
@@ -136,4 +140,5 @@ export {
   deleteABook,
   callUploadBookImg,
   callUpdateBook,
+  getDetailBookWithId,
 };

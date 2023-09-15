@@ -1,7 +1,7 @@
 .div-sidebar {
   border: 1px solid #bdbdbd;
   border-radius: 20px;
-  width: 20%;
+  // width: 20%;
   height: auto;
   background-color: white;
   // margin-top: -100px;
@@ -26,3 +26,38 @@
     }
   }
 }
+// @media only screen and (min-width: 1024px) {
+//   .div-sidebar {
+//     border: 1px solid #bdbdbd;
+//     border-radius: 20px;
+//     width: 20%;
+//     height: auto;
+//     background-color: white;
+//     // margin-top: -100px;
+//     .title_Sidebar {
+//       display: flex;
+//       justify-content: flex-start;
+//       align-items: center;
+//       font-size: 15px;
+//       font-weight: 600;
+//       padding: 20px 0px 20px 30px;
+//     }
+//     .ant-menu {
+//       border-radius: 20px;
+//       .ant-menu-item {
+//         height: 35px;
+//         .anticon {
+//           font-size: 15px;
+//         }
+//         .ant-menu-title-content {
+//           font-size: 15px;
+//         }
+//       }
+//     }
+//   }
+// }
+// @media only screen and (max-width: 600px) {
+//   .div-sidebar {
+//     display: none;
+//   }
+// }

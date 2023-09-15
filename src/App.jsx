@@ -29,6 +29,7 @@ import ManagerBook from "./pages/Admin/Book/ManagerBook";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import NotPermitted from "./pages/NotPermitted/NotPermitted";
+import ViewDetailBook from "./pages/book/ViewDetailBook";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -65,7 +66,7 @@ const router = createBrowserRouter([
       },
       {
         path: "book/:slug",
-        element: <Book />,
+        element: <ViewDetailBook />,
       },
     ],
   },
