@@ -30,6 +30,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import NotPermitted from "./pages/NotPermitted/NotPermitted";
 import ViewDetailBook from "./pages/book/ViewDetailBook";
+import OrderPage from "./pages/order/OrderPage";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "book/:slug",
         element: <ViewDetailBook />,
+      },
+      {
+        path: "order",
+        element: <OrderPage />,
       },
     ],
   },

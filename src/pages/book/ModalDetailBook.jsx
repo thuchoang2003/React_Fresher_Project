@@ -9,6 +9,7 @@ const ModalDetailBook = (props) => {
     refGallery,
     currentImage,
     setCurrentImage,
+    dataBookDetail,
   } = props;
   const showModal = () => {
     setIsModalOpen(true);
@@ -19,6 +20,16 @@ const ModalDetailBook = (props) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
+
   return (
     <>
       <Modal
@@ -45,7 +56,11 @@ const ModalDetailBook = (props) => {
             />
           </Col>
           <Col span={8}>
-            <div>Title</div>
+            <div
+              style={{ fontSize: "20px", fontWeight: 200, padding: "20px 0px" }}
+            >
+              {dataBookDetail?.mainText}
+            </div>
             <div>
               <Row gutter={[10, 10]}>
                 {images?.map((item, index) => {
@@ -56,8 +71,16 @@ const ModalDetailBook = (props) => {
                         height={100}
                         src={item.original}
                         preview={false}
-                        style={{ cursor: "pointer" }}
+                        style={{
+                          cursor: "pointer",
+                          border:
+                            index === hoveredIndex
+                              ? "2px solid rgba(2, 97, 255,0.6)"
+                              : "1px solid",
+                        }}
                         onClick={() => refGallery?.current?.slideToIndex(index)}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
                       ></Image>
                     </Col>
                   );

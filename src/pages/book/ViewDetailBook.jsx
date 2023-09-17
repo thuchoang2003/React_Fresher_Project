@@ -2,9 +2,19 @@ import "../../assets/scss/ViewDetailBook.scss";
 import "react-image-gallery/styles/scss/image-gallery.scss";
 import ImageGallery from "react-image-gallery";
 import React, { useEffect, useRef, useState } from "react";
-import { Rate, Row, Col, Divider, Button, InputNumber } from "antd";
+import {
+  Rate,
+  Row,
+  Col,
+  Divider,
+  Button,
+  InputNumber,
+  notification,
+  message,
+} from "antd";
 import { getDetailBookWithId } from "../../apiService/apiServices";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import {
   MinusOutlined,
   PlusOutlined,
@@ -12,39 +22,18 @@ import {
 } from "@ant-design/icons";
 import ModalDetailBook from "./ModalDetailBook";
 import BookLoader from "./BookLoader";
+import { useDispatch, useSelector } from "react-redux";
+import { doAddBookToCart } from "../../redux/counter/order/cartsSlice";
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 const ViewDetailBook = (props) => {
-  //   let images = [
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1018/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1018/250/150/",
-  //     //     },
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1015/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1015/250/150/",
-  //     //     },
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1019/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1019/250/150/",
-  //     //     },
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1018/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1018/250/150/",
-  //     //     },
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1015/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1015/250/150/",
-  //     //     },
-  //     //     {
-  //     //       original: "https://picsum.photos/id/1019/1000/600/",
-  //     //       thumbnail: "https://picsum.photos/id/1019/250/150/",
-  //     //     },
-  //   ];
   const [images, setImages] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
   const [dataBookDetail, setDataBookDetail] = useState();
-
+  const [inputQuantity, setInputQuantity] = useState(1);
+  const dispath = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.account.user.id);
   const handleClickImage = () => {
     setOpenModal(!openModal);
     console.log(refGallery?.current?.getCurrentIndex());
@@ -79,6 +68,36 @@ const ViewDetailBook = (props) => {
     return image;
     console.log(images);
     console.log("check imgThumbnail", imgThumbnail);
+  };
+  const handleClickButtonMinus = () => {
+    if (inputQuantity && inputQuantity > 0)
+      setInputQuantity((inputQuantity) => inputQuantity - 1);
+  };
+  const handleClickButtonPlus = () => {
+    if (inputQuantity < dataBookDetail.quantity) {
+      setInputQuantity((inputQuantity) => inputQuantity + 1);
+    } else if (inputQuantity >= dataBookDetail.quantity)
+      setInputQuantity(dataBookDetail.quantity);
+  };
+  const handleClickAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      if (inputQuantity === 0) {
+        notification.error({
+          message: "Failed!",
+          description: "Please change your product quantity!",
+          duration: 5,
+        });
+      } else {
+        message.success("Product is added into carts!");
+        let dataAction = {
+          quantity: inputQuantity,
+          detail: { dataBookDetail },
+        };
+        dispath(doAddBookToCart(dataAction));
+      }
+    }
   };
   const fetchDataBook = async (id) => {
     if (id) {
@@ -155,9 +174,20 @@ const ViewDetailBook = (props) => {
                   <div className="divQuantity">
                     <span className="divQuantity_left">Số lượng:</span>
                     <span className="divQuantity_right">
-                      <Button icon={<MinusOutlined />}></Button>
-                      <InputNumber defaultValue={1} />
-                      <Button icon={<PlusOutlined />}></Button>
+                      <Button
+                        icon={<MinusOutlined />}
+                        onClick={() => handleClickButtonMinus()}
+                      ></Button>
+                      <InputNumber
+                        value={inputQuantity}
+                        onChange={(e) => {
+                          setInputQuantity(e);
+                        }}
+                      />
+                      <Button
+                        icon={<PlusOutlined />}
+                        onClick={() => handleClickButtonPlus()}
+                      ></Button>
                     </span>
                   </div>
                   <div className="divBtnAddBook">
@@ -173,6 +203,7 @@ const ViewDetailBook = (props) => {
                         //       width: "200px",
                         height: "40px",
                       }}
+                      onClick={() => handleClickAddToCart()}
                     >
                       <span className="text">Thêm Vào Giỏ Hàng</span>
                     </Button>
@@ -203,6 +234,7 @@ const ViewDetailBook = (props) => {
         currentImage={currentImage}
         setCurrentImage={setCurrentImage}
         refGallery={refGallery}
+        dataBookDetail={dataBookDetail}
       />
     </>
   );
