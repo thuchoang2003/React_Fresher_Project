@@ -70,19 +70,17 @@ const AdminHomepage = () => {
             ),
             getItem("Manager Users", "sub2", <MailOutlined />, [
               getItem(<Link to="user">CRUD</Link>, "CRUD"),
-              getItem("Option 2", "2"),
             ]),
             getItem(
               <Link to="book">Manager Books</Link>,
               "sub3",
               <AppstoreOutlined />
             ),
-            getItem("Manager Orders", "sub4", <SettingOutlined />, [
-              getItem("Option 9", "9"),
-              getItem("Option 10", "10"),
-              getItem("Option 11", "11"),
-              getItem("Option 12", "12"),
-            ]),
+            getItem(
+              <Link to="order">Manager Orders</Link>,
+              "sub4",
+              <SettingOutlined />
+            ),
           ]}
         />
       </Sider>

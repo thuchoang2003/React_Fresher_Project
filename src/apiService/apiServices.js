@@ -154,6 +154,15 @@ const putUpdateUser = (fullName, phone, avatar, _id) => {
   let response = instance.put("/user", data);
   return response;
 };
+const postChangePassword = (email, oldpass, newpass) => {
+  const data = {
+    email: email,
+    oldpass: oldpass,
+    newpass: newpass,
+  };
+  let response = instance.post("/user/change-password", data);
+  return response;
+};
 
 export {
   postLogin,
@@ -176,4 +185,5 @@ export {
   getHistory,
   uploadAvatarUser,
   putUpdateUser,
+  postChangePassword,
 };

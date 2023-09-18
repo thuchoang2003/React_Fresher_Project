@@ -32,6 +32,7 @@ import NotPermitted from "./pages/NotPermitted/NotPermitted";
 import ViewDetailBook from "./pages/book/ViewDetailBook";
 import OrderPage from "./pages/order/OrderPage";
 import History from "./pages/history/History";
+import TableOrder from "./pages/Admin/order/TableOrder";
 const Layout = () => {
   return (
     <div className="app-container">
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
       {
         path: "book",
         element: <ManagerBook />,
+      },
+      {
+        path: "order",
+        element: <TableOrder />,
       },
     ],
   },

@@ -14,10 +14,16 @@ import {
 import { AntDesignOutlined, UploadOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "antd/es/form/Form";
-import { uploadAvatarUser, putUpdateUser } from "../../apiService/apiServices";
+import {
+  uploadAvatarUser,
+  putUpdateUser,
+  postChangePassword,
+} from "../../apiService/apiServices";
 import { doUpdateInfomation } from "../../redux/counter/accountSlice";
+
 const ModalUpdateInfoUser = (props) => {
   const [form] = Form.useForm();
+  const [form2] = Form.useForm();
   const ModalUpdate = (props) => {
     const user = useSelector((state) => state.account.user);
     const avatar = useSelector((state) => state.account.user.avatar);
@@ -48,6 +54,7 @@ const ModalUpdateInfoUser = (props) => {
             fullName: name,
           })
         );
+        localStorage.removeItem("access_token");
       } else console.log("call error", res.data);
     };
     const getBase64 = (img, callback) => {
@@ -98,6 +105,9 @@ const ModalUpdateInfoUser = (props) => {
       };
 
       form.setFieldsValue(init);
+      setLoading(false);
+      setLoadingSlider(false);
+
       setInitForm(init);
     };
     useEffect(() => {
@@ -159,9 +169,68 @@ const ModalUpdateInfoUser = (props) => {
       </>
     );
   };
+  const ModalChangePassword = (props) => {
+    const email = useSelector((state) => state.account.user.email);
+
+    const onFinish = async (values) => {
+      const { email, oldpass, newpass } = values;
+      let res = await postChangePassword(email, oldpass, newpass);
+      if (res && res.data) {
+        notification.success({
+          message: "Success",
+          description: "Change password successfully!",
+          duration: 5,
+        });
+        handleCancel();
+        form2.resetFields("oldpass");
+        form2.resetFields("newpass");
+      } else console.log(res);
+    };
+
+    return (
+      <>
+        <Form
+          onFinish={onFinish}
+          layout="vertical"
+          initialValues={{ email: email }}
+          autoComplete="off"
+          form={form2}
+        >
+          <Form.Item label="Email" name="email">
+            <Input disabled />
+          </Form.Item>
+          <Form.Item
+            label="Mật khẩu cũ"
+            name="oldpass"
+            rules={[
+              {
+                required: true,
+                message: "Please input your old password!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Mật khẩu mới"
+            name="newpass"
+            rules={[
+              {
+                required: true,
+                message: "Please input your new password!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+        </Form>
+      </>
+    );
+  };
   const { isModalOpen, setIsModalOpen } = props;
+  const [key, setKey] = useState(1);
   const onChange = (key) => {
-    console.log(key);
+    setKey(key);
   };
 
   const items = [
@@ -177,7 +246,11 @@ const ModalUpdateInfoUser = (props) => {
     {
       key: "2",
       label: "Đổi mật khẩu",
-      children: "Content of Tab Pane 2",
+      children: (
+        <>
+          <ModalChangePassword />
+        </>
+      ),
     },
   ];
 
@@ -195,10 +268,14 @@ const ModalUpdateInfoUser = (props) => {
         onCancel={handleCancel}
         width={800}
         onOk={() => {
-          form.submit();
+          if (key === 1) {
+            form.submit();
+          } else {
+            form2.submit();
+          }
         }}
       >
-        <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
+        <Tabs defaultActiveKey={key} items={items} onChange={onChange} />
       </Modal>
     </>
   );

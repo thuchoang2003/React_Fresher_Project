@@ -80,7 +80,7 @@ const History = (props) => {
           Lịch sử mua hàng:
         </div>
         <Table
-          dataSource={dataSource}
+          dataSource={data}
           columns={columns}
           style={{ paddingTop: 20 }}
           onChange={onChange}
