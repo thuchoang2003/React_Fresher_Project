@@ -22,6 +22,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doLogout } from "../../redux/counter/accountSlice.js";
 import { useDispatch } from "react-redux";
+import ModalUpdateInfoUser from "./ModalUpdateInfoUser";
 const { Search } = Input;
 
 const onSearch = (value) => console.log(value);
@@ -38,6 +39,7 @@ const Header = () => {
   const countOrder = useSelector((state) => state.carts.orders.length);
   const navigate = useNavigate();
   const dispath = useDispatch();
+  const [openModalUpdateInfoUser, setOpenModalUpdateInfoUser] = useState(false);
 
   const itemsNotLogin = [
     {
@@ -59,6 +61,9 @@ const Header = () => {
     {
       key: "3",
       label: <a>Quản lý trang cá nhân</a>,
+      onClick: () => {
+        setOpenModalUpdateInfoUser(!openModalUpdateInfoUser);
+      },
     },
     {
       key: "4",
@@ -66,6 +71,13 @@ const Header = () => {
       onClick: () => {
         dispath(doLogout());
         navigate("/login");
+      },
+    },
+    {
+      key: "5",
+      label: <a>Lịch sử mua hàng</a>,
+      onClick: () => {
+        navigate("/history");
       },
     },
   ];
@@ -109,31 +121,32 @@ const Header = () => {
       };
     });
     arrayOrdersClone = arrayOrdersClone.reverse();
-    arrayOrdersClone.push({
-      key: `btnShowCarts`,
-      label: (
-        <Row justify="end">
-          <Col span={6}>
-            <Button
-              danger
-              style={{
-                backgroundColor: "#d0011b",
-                //       width: "200px",
-                height: "40px",
-              }}
-            >
-              <span
-                style={{ color: "white" }}
-                onClick={() => navigate("/order")}
+    if (arrayOrdersClone.length > 0) {
+      arrayOrdersClone.push({
+        key: `btnShowCarts`,
+        label: (
+          <Row justify="end" span={24}>
+            <Col span={8}>
+              <Button
+                danger
+                style={{
+                  backgroundColor: "#d0011b",
+                  height: "30px",
+                }}
               >
-                Xem Giỏ Hàng
-              </span>
-            </Button>
-          </Col>
-        </Row>
-      ),
-    });
-    console.log(arrayOrdersClone);
+                <span
+                  style={{ color: "white" }}
+                  onClick={() => navigate("/order")}
+                >
+                  Xem Giỏ Hàng
+                </span>
+              </Button>
+            </Col>
+          </Row>
+        ),
+      });
+    }
+
     setItemCarts(arrayOrdersClone);
   }, [countOrder]);
   return (
@@ -244,6 +257,10 @@ const Header = () => {
         </Col>
         {/* </Row> */}
       </div>
+      <ModalUpdateInfoUser
+        isModalOpen={openModalUpdateInfoUser}
+        setIsModalOpen={setOpenModalUpdateInfoUser}
+      />
     </>
   );
 };

@@ -127,6 +127,33 @@ const postCreateOrder = (data) => {
   let response = instance.post("/order", { ...data });
   return response;
 };
+const getHistory = (current, pageSize) => {
+  let response = instance.get(
+    `/order?current=${current}&pageSize=${pageSize}&sort=-createdAt`
+  );
+  return response;
+};
+const uploadAvatarUser = (file) => {
+  const bodyFormData = new FormData();
+  bodyFormData.append("fileImg", file);
+
+  return instance.post("/file/upload", bodyFormData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "upload-type": "avatar",
+    },
+  });
+};
+const putUpdateUser = (fullName, phone, avatar, _id) => {
+  const data = {
+    fullName: fullName,
+    phone: phone,
+    avatar: avatar,
+    _id: _id,
+  };
+  let response = instance.put("/user", data);
+  return response;
+};
 
 export {
   postLogin,
@@ -146,4 +173,7 @@ export {
   callUpdateBook,
   getDetailBookWithId,
   postCreateOrder,
+  getHistory,
+  uploadAvatarUser,
+  putUpdateUser,
 };
