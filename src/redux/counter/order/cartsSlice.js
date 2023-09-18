@@ -24,26 +24,46 @@ export const cartsSlice = createSlice({
         else state.orders[index].quantity = result;
       }
     },
-    //     doLogout: (state) => {
-    //       state.user.avatar = "";
-    //       state.user.email = "";
-    //       state.user.fullName = "";
-    //       state.user.id = "";
-    //       state.user.phone = "";
-    //       state.user.role = "";
-    //       state.isAuthenticated = false;
-    //       state.isLoading = false;
-    //       localStorage.removeItem("access_token");
-    //     },
-    //     doGetAccount: (state, action) => {
-    //       state.user = action?.payload?.user;
-    //       state.isAuthenticated = true;
-    //       state.isLoading = false;
-    //     },
+    doUpdateCart: (state, action) => {
+      const index = state.orders.findIndex(
+        (item) => item.detail.dataBookDetail._id === action?.payload?._id
+      );
+      if (index !== -1) {
+        if (
+          action?.payload?.quantity >= 0 &&
+          action?.payload?.quantity <=
+            state.orders[index].detail.dataBookDetail.quantity
+        ) {
+          state.orders[index].quantity = action?.payload?.quantity;
+        } else if (
+          action?.payload?.quantity >
+          state.orders[index].detail.dataBookDetail.quantity
+        ) {
+          state.orders[index].quantity =
+            state.orders[index].detail.dataBookDetail.quantity;
+        }
+      }
+    },
+    doDeleteBook: (state, action) => {
+      const indexDelete = state.orders.findIndex(
+        (item) => item.detail.dataBookDetail._id === action?.payload?._id
+      );
+      if (indexDelete >= 0 && indexDelete < state.orders.length) {
+        const newArray = state.orders.filter(
+          (element, index) => index !== indexDelete
+        );
+        state.orders = newArray;
+      }
+    },
+    doFinishOrder: (state, action) => {
+      state.orders = [];
+    },
   },
+
   extraReducers: (builder) => {},
 });
 
-export const { doAddBookToCart } = cartsSlice.actions;
+export const { doAddBookToCart, doUpdateCart, doDeleteBook, doFinishOrder } =
+  cartsSlice.actions;
 
 export default cartsSlice.reducer;

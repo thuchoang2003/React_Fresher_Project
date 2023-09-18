@@ -106,7 +106,7 @@ const ViewDetailBook = (props) => {
         setImages(getImage(res.data));
         setTimeout(() => {
           setDataBookDetail(res.data);
-        }, 2000);
+        }, 1000);
       } else {
         console.log(res);
       }

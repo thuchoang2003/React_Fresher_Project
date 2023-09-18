@@ -123,6 +123,10 @@ const getDetailBookWithId = (id) => {
   let response = instance.get(`/book/${id}`);
   return response;
 };
+const postCreateOrder = (data) => {
+  let response = instance.post("/order", { ...data });
+  return response;
+};
 
 export {
   postLogin,
@@ -141,4 +145,5 @@ export {
   callUploadBookImg,
   callUpdateBook,
   getDetailBookWithId,
+  postCreateOrder,
 };
