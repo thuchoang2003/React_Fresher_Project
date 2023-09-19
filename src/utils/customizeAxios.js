@@ -3,7 +3,8 @@ import NProgress from "nprogress";
 import { store } from "../../src/redux/store.js";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080/api/v1/",
+  // baseURL: "http://localhost:8080/api/v1/",
+  baseURL:`${import.meta.env.VITE_BACKEND_URL}/api/v1`,
   withCredentials: true,
 });
 const handleRefreshToken = async () => {
