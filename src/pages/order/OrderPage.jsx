@@ -18,7 +18,8 @@ import {
 import PagementPage from "./PaymentPage.jsx";
 import FinishOrder from "./FinishOrder.jsx";
 import { store } from "../../redux/store.js";
-
+import "../../assets/scss/OrderPage.scss";
+import { floatButtonPrefixCls } from "antd/es/float-button/FloatButton.js";
 const OrderPage = (props) => {
   const [dataOrder, setDataOrder] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -86,6 +87,7 @@ const OrderPage = (props) => {
           >
             <Steps
               size="default"
+              responsive={true}
               current={currentSteps}
               items={[
                 {
@@ -128,7 +130,7 @@ const OrderPage = (props) => {
                           marginTop: "10px",
                         }}
                       >
-                        <Col md={2} sm={2} xs={2}>
+                        <Col md={2} sm={2} xs={3}>
                           <Image
                             src={`${
                               import.meta.env.VITE_BACKEND_URL
@@ -139,10 +141,10 @@ const OrderPage = (props) => {
                             height={70}
                           ></Image>
                         </Col>
-                        <Col md={8} sm={8} xs={8}>
+                        <Col md={7} sm={8} xs={{ span: 11, push: 1 }}>
                           {item.detail.dataBookDetail.mainText}
                         </Col>
-                        <Col md={2} sm={2} xs={2}>
+                        <Col md={2} sm={2} xs={0} offset={1}>
                           {new Intl.NumberFormat("vi-VN", {
                             style: "currency",
                             currency: "VND",
@@ -156,7 +158,7 @@ const OrderPage = (props) => {
                             }
                           />
                         </Col>
-                        <Col md={4} sm={5} xs={5} offset={2}>
+                        <Col md={4} sm={5} xs={0}>
                           <div
                             style={{
                               display: "flex",
@@ -188,13 +190,14 @@ const OrderPage = (props) => {
                             </span>
                           </div>
                         </Col>
-                        <Col span={2}>
+                        <Col md={1} sm={2} xs={2}>
                           <DeleteOutlined
                             style={{
                               color: "red",
                               cursor: "pointer",
                               fontSize: "16px",
                             }}
+                            className="iconDeleteItem"
                             onClick={() => handleDeleteItemOrder(item)}
                           />
                         </Col>

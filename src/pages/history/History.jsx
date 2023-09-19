@@ -34,16 +34,16 @@ const History = (props) => {
         </>
       ),
     },
-    {
-      title: "Chi tiết",
-      key: "detail",
-      //       render: (_, record) => (
-      //         <Space size="middle">
-      //           <a>Invite {record.name}</a>
-      //           <a>Delete</a>
-      //         </Space>
-      //       ),
-    },
+    // {
+    //   title: "Chi tiết",
+    //   key: "detail",
+    //   //       render: (_, record) => (
+    //   //         <Space size="middle">
+    //   //           <a>Invite {record.name}</a>
+    //   //           <a>Delete</a>
+    //   //         </Space>
+    //   //       ),
+    // },
   ];
   const data = [];
   const fetchDataHistory = async () => {

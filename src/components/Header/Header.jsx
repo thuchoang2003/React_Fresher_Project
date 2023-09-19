@@ -82,7 +82,7 @@ const Header = (props) => {
 
   const [itemCarts, setItemCarts] = useState([]);
   useEffect(() => {
-    if (!isAuthenticated) return;
+    // if (!isAuthenticated) return;
     let arrayOrdersClone = carts.map((item, index) => {
       return {
         key: `${item.detail.dataBookDetail._id}`,
@@ -92,7 +92,7 @@ const Header = (props) => {
             justify="center"
             style={{ margin: 0, padding: 0 }}
           >
-            <Col span={4}>
+            <Col span={4} pull={1}>
               <Image
                 src={`${import.meta.env.VITE_BACKEND_URL}/images/book/${
                   item.detail.dataBookDetail.thumbnail
@@ -101,12 +101,12 @@ const Header = (props) => {
                 height={50}
               ></Image>
             </Col>
-            <Col span={10} offset={1}>
+            <Col span={12} offset={1}>
               <span style={{ fontSize: "15px" }}>
                 {item.detail.dataBookDetail.mainText}
               </span>
             </Col>
-            <Col span={4} offset={1}>
+            <Col span={3} offset={1}>
               <span style={{ fontSize: "15px", color: "#fc634d" }}>
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
@@ -123,8 +123,8 @@ const Header = (props) => {
       arrayOrdersClone.push({
         key: `btnShowCarts`,
         label: (
-          <Row justify="end" span={24}>
-            <Col span={8}>
+          <Row justify="end" span={22}>
+            <Col pull={1}>
               <Button
                 danger
                 style={{
@@ -159,7 +159,7 @@ const Header = (props) => {
             <img src="https://salt.tikicdn.com/ts/upload/c1/64/f7/4e6e925ea554fc698123ea71ed7bda26.png"></img>
           </div>
         </Col>
-        <Col md={12} sm={12} xs={18}>
+        <Col md={12} sm={12} xs={15}>
           <Search
             span={24}
             placeholder="Search"
@@ -187,7 +187,7 @@ const Header = (props) => {
             </Button>
           </div>
         </Col>
-        <Col md={3} sm={0} xs={0}>
+        <Col md={3} sm={0} xs={4}>
           {isAuthenticated ? (
             <div>
               <Dropdown
@@ -209,7 +209,7 @@ const Header = (props) => {
                     alignItems: "center",
                   }}
                 >
-                  {fullnameUser}
+                  <span className="fullname"> {fullnameUser}</span>
                 </Button>
               </Dropdown>
             </div>
@@ -223,13 +223,13 @@ const Header = (props) => {
                 }}
               >
                 <Button
-                  icon={<UserOutlined style={{ fontSize: "17px" }} />}
+                  icon={<UserOutlined style={{ fontSize: "20px" }} />}
                   size="large"
                   type="link"
                   block
                   style={{ fontSize: "17px" }}
                 >
-                  Tài khoản
+                  <span className="fullname">Tài khoản</span>
                 </Button>
               </Dropdown>
             </div>
@@ -246,6 +246,7 @@ const Header = (props) => {
               }}
               autoAdjustOverflow={true}
               justify="space-evenly"
+              trigger={"hover"}
               // style={{ width: "100px" }}
             >
               <Badge count={isAuthenticated ? countOrder : 0}>

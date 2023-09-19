@@ -94,7 +94,7 @@ const Login = (props) => {
               <Button
                 type="primary"
                 htmlType="submit"
-                style={{ height: "45px" }}
+                style={{ height: "40px" }}
               >
                 Log in
               </Button>

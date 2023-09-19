@@ -116,7 +116,7 @@ const ModalUpdateInfoUser = (props) => {
     return (
       <>
         <Row span={24} gutter={[10, 10]}>
-          <Col span={10}>
+          <Col span={10} xs={24}>
             <Row justify={"center"}>
               <Avatar span={24} size={150} src={imgAvatar} />
             </Row>
@@ -134,7 +134,7 @@ const ModalUpdateInfoUser = (props) => {
               </Upload>
             </Row>
           </Col>
-          <Col md={14}>
+          <Col md={14} xs={24}>
             <Form onFinish={onFinish} layout="vertical" form={form}>
               <Form.Item label="Email" name="email">
                 <Input disabled value={user?.email}></Input>
