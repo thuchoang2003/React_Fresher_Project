@@ -3,7 +3,7 @@ import "../../assets/scss/MainContent.scss";
 import { useEffect, useState } from "react";
 import { getAllBooksWithPaginate } from "../../apiService/apiServices";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 const MainContent = (props) => {
   const items = [
     {
@@ -32,6 +32,7 @@ const MainContent = (props) => {
   const [pageSize, setPageSize] = useState(4);
   const [total, setTotal] = useState(1);
   const [dataSource, setDataSource] = useState([]);
+  const [searchTerm, setSearchTerm] = useOutletContext();
   const [queryFetchData, setQueryFetchData] = useState(
     `/book?current=${current}&pageSize=${pageSize}`
   );
@@ -41,9 +42,11 @@ const MainContent = (props) => {
   };
   const nagivate = useNavigate();
   const fetchDataBook = async () => {
-    let res = await getAllBooksWithPaginate(
-      queryFetchData + queryFilter + querySort + queryFilterPrice
-    );
+    let query = queryFetchData + queryFilter + querySort + queryFilterPrice;
+    if (searchTerm) {
+      query += `&mainText=/${searchTerm}/i`;
+    }
+    let res = await getAllBooksWithPaginate(query);
     if (res && res.data) {
       setTotal(res?.data?.meta?.total);
 
@@ -79,7 +82,7 @@ const MainContent = (props) => {
   };
   useEffect(() => {
     fetchDataBook();
-  }, [current, pageSize, queryFilter, querySort, queryFilterPrice]);
+  }, [current, pageSize, queryFilter, querySort, queryFilterPrice, searchTerm]);
   const nonAccentVietnamese = (str) => {
     str = str.replace(/A|Á|À|Ã|Ạ|Â|Ấ|Ầ|Ẫ|Ậ|Ă|Ắ|Ằ|Ẵ|Ặ/g, "A");
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");

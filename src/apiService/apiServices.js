@@ -133,6 +133,10 @@ const getHistory = (current, pageSize) => {
   );
   return response;
 };
+const getHistoryOrderByUser = () => {
+  let response = instance.get("/history");
+  return response;
+};
 const uploadAvatarUser = (file) => {
   const bodyFormData = new FormData();
   bodyFormData.append("fileImg", file);
@@ -186,4 +190,5 @@ export {
   uploadAvatarUser,
   putUpdateUser,
   postChangePassword,
+  getHistoryOrderByUser,
 };

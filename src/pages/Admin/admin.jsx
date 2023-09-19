@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/counter/accountSlice";
 import { postLogout } from "../../apiService/apiServices";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
 
 const { Header, Sider, Content, Footer } = Layout;
 const AdminHomepage = () => {
@@ -22,6 +23,7 @@ const AdminHomepage = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const [activeMenu, setActiveMenu] = useState("dashboard");
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
@@ -53,6 +55,14 @@ const AdminHomepage = () => {
     };
   }
   const navigate = useNavigate();
+  useEffect(() => {
+    if (window.location.pathname.includes("/book"))
+      setActiveMenu("managerBook");
+    else if (window.location.pathname.includes("/order"))
+      setActiveMenu("managerOrder");
+    else if (window.location.pathname.includes("/user"))
+      setActiveMenu("managerUser");
+  }, []);
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed} width={"16%"}>
@@ -61,27 +71,28 @@ const AdminHomepage = () => {
         <Menu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={["Dashboard"]}
+          selectedKeys={[activeMenu]}
           items={[
             getItem(
               <Link to="/admin">Dashboard</Link>,
-              "Dashboard",
+              "dashboard",
               <UserOutlined />
             ),
-            getItem("Manager Users", "sub2", <MailOutlined />, [
+            getItem("Manager Users", "managerUser", <MailOutlined />, [
               getItem(<Link to="user">CRUD</Link>, "CRUD"),
             ]),
             getItem(
               <Link to="book">Manager Books</Link>,
-              "sub3",
+              "managerBook",
               <AppstoreOutlined />
             ),
             getItem(
               <Link to="order">Manager Orders</Link>,
-              "sub4",
+              "managerOrder",
               <SettingOutlined />
             ),
           ]}
+          onClick={(e) => setActiveMenu(e.key)}
         />
       </Sider>
       <Layout>

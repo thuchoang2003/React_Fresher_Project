@@ -34,10 +34,11 @@ import OrderPage from "./pages/order/OrderPage";
 import History from "./pages/history/History";
 import TableOrder from "./pages/Admin/order/TableOrder";
 const Layout = () => {
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <div className="app-container">
-      <Header />
-      <Outlet />
+      <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <Outlet context={[searchTerm, setSearchTerm]} />
       {/* <Footer /> */}
     </div>
   );
@@ -73,11 +74,19 @@ const router = createBrowserRouter([
       },
       {
         path: "order",
-        element: <OrderPage />,
+        element: (
+          <ProtectedRoute>
+            <OrderPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "history",
-        element: <History />,
+        element: (
+          <ProtectedRoute>
+            <History />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

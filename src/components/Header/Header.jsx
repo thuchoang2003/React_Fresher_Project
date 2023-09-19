@@ -25,9 +25,7 @@ import { useDispatch } from "react-redux";
 import ModalUpdateInfoUser from "./ModalUpdateInfoUser";
 const { Search } = Input;
 
-const onSearch = (value) => console.log(value);
-
-const Header = () => {
+const Header = (props) => {
   const isAuthenticated = useSelector((state) => state.account.user.id);
   const fullnameUser = useSelector((state) => state.account.user.fullName);
   const avatar = useSelector((state) => state.account.user.avatar);
@@ -40,7 +38,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispath = useDispatch();
   const [openModalUpdateInfoUser, setOpenModalUpdateInfoUser] = useState(false);
-
+  const { searchTerm, setSearchTerm } = props;
   const itemsNotLogin = [
     {
       key: "1",
@@ -149,6 +147,9 @@ const Header = () => {
 
     setItemCarts(arrayOrdersClone);
   }, [countOrder]);
+  const onSearch = (value) => {
+    setSearchTerm(value);
+  };
   return (
     <>
       <div className="header-container container">

@@ -15,6 +15,7 @@ import {
 import "../../assets/scss/Sidebar.scss";
 import { Button, Divider, InputNumber, Menu, Rate, notification } from "antd";
 import { getBookCategory } from "../../apiService/apiServices";
+import { useNavigate, useOutletContext } from "react-router-dom";
 function getItem(label, key, icon, children, type) {
   return {
     key,
@@ -27,6 +28,7 @@ function getItem(label, key, icon, children, type) {
 
 const SideBar = (props) => {
   const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useOutletContext();
   const {
     queryFilter,
     setQueryFilter,
@@ -62,8 +64,10 @@ const SideBar = (props) => {
     }
   };
   const handleChangeMenu = (item, key, keyPath, domEvent) => {
-    if (item.key === "All") setQueryFilter("");
-    else {
+    if (item.key === "All") {
+      setQueryFilter("");
+      setSearchTerm("");
+    } else {
       setQueryFilter(`&category=${item.key}`);
     }
   };

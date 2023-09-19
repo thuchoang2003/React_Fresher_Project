@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Space, Table, Tag, Pagination } from "antd";
-import { getHistory } from "../../apiService/apiServices";
+import { getHistoryOrderByUser } from "../../apiService/apiServices";
 import moment from "moment";
 const History = (props) => {
   const [current, setCurrent] = useState(1);
@@ -47,15 +47,15 @@ const History = (props) => {
   ];
   const data = [];
   const fetchDataHistory = async () => {
-    let res = await getHistory(current, pageSize);
+    let res = await getHistoryOrderByUser();
     if (res && res.data) {
       console.log(res.data);
-      setTotal(res?.data?.meta?.total);
+      setTotal(res.data.length);
       let arrayData = [];
-      arrayData = res.data.result.map((item, index) => {
+      arrayData = res.data.map((item, index) => {
         return {
           stt: index,
-          time: moment(item.createdAt).format("DD-MM-YYYY hh:mm:ss"),
+          time: moment(item.updatedAt).format("DD-MM-YYYY hh:mm:ss"),
           price: item.totalPrice,
         };
       });
@@ -64,15 +64,8 @@ const History = (props) => {
   };
   useEffect(() => {
     fetchDataHistory();
-  }, [current, pageSize]);
+  }, []);
 
-  const handleChangePage = (page, pageSize) => {
-    setCurrent(page);
-    setPageSize(pageSize);
-  };
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log("params", sorter);
-  };
   return (
     <>
       <div style={{ maxWidth: "1440px", margin: "0px auto" }}>
@@ -80,18 +73,9 @@ const History = (props) => {
           Lịch sử mua hàng:
         </div>
         <Table
-          dataSource={data}
+          dataSource={dataSource}
           columns={columns}
           style={{ paddingTop: 20 }}
-          onChange={onChange}
-          pagination={{
-            current: current,
-            pageSize: pageSize,
-            total: total,
-            pageSizeOptions: [5, 6, 7, 8],
-            showSizeChanger: true,
-            onChange: handleChangePage,
-          }}
         />
       </div>
     </>
