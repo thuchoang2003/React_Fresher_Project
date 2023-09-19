@@ -4,7 +4,7 @@ import { store } from "../../src/redux/store.js";
 
 const instance = axios.create({
   // baseURL: "http://localhost:8080/api/v1/",
-  baseURL:`${import.meta.env.VITE_BACKEND_URL}/api/v1`,
+  baseURL: `${import.meta.env.VITE_BACKEND_URL}/api/v1`,
   withCredentials: true,
 });
 const handleRefreshToken = async () => {
@@ -29,7 +29,7 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-const NO_RETRY_HEADER = 'x-no-retry';
+const NO_RETRY_HEADER = "x-no-retry";
 // Add a response interceptor
 instance.interceptors.response.use(
   function (response) {
@@ -44,18 +44,18 @@ instance.interceptors.response.use(
     // Do something with response error
     NProgress.done();
     const status = error.response ? error.response.status : null;
-    
+
     if (status === 401 && !error.config.headers[NO_RETRY_HEADER]) {
-        const access_token = await handleRefreshToken();
-        error.config.headers[NO_RETRY_HEADER] = 'true'
-        error.config.headers["Authorization"] = "Bearer " + access_token;
-        localStorage.setItem("access_token") = access_token;
-        return instance.request(error.config);
-      }
-      if(status === 400 && error.config.url === '/api/v1/auth/refresh'){
-        window.location.href = "/login";
-      }
-    
+      const access_token = await handleRefreshToken();
+      error.config.headers[NO_RETRY_HEADER] = "true";
+      error.config.headers["Authorization"] = "Bearer " + access_token;
+      localStorage.setItem("access_token", access_token);
+      return instance.request(error.config);
+    }
+    if (status === 400 && error.config.url === "/api/v1/auth/refresh") {
+      window.location.href = "/login";
+    }
+
     return error && error.response && error.response.data
       ? error.response.data
       : Promise.reject(error);
