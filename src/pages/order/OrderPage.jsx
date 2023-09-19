@@ -27,7 +27,6 @@ const OrderPage = (props) => {
   let dispatch = useDispatch();
   // let carts = useSelector((state) => state.carts.orders);
   const fetchDataOrders = () => {
-    console.log("check", store.getState());
     let carts = store.getState().carts.orders;
     if (carts && carts.length > 0) {
       let sum = 0; // Initialize sum to 0
